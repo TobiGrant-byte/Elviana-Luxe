@@ -1,4 +1,4 @@
-// ELVIANA LUXE E-COMMERCE SYSTEM - SIMPLIFIED WORKING VERSION
+// ELVIANA LUXE E-COMMERCE SYSTEM - FIXED VERSION
 (function() {
     // === CORE FUNCTIONALITY ===
     
@@ -20,23 +20,42 @@
         });
     }
     
-    // Product database (simplified for testing)
+    // Product database - Updated for all 31 items
     const products = [
-        { id: 1, name: "Gold Elegance Heels", price: 349.99, image: "img 1.jpg", colors: ["Gold", "Rose Gold"], sizes: ["36", "37", "38"] },
-        { id: 2, name: "Black Leather Boots", price: 289.99, image: "img 2.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"] },
-        { id: 3, name: "Crystal Embellished Pumps", price: 425.50, image: "img 3.jpg", colors: ["Clear", "Gold"], sizes: ["36", "37", "38"] },
-        { id: 4, name: "Designer Sneakers", price: 275.00, image: "img 4.jpg", colors: ["White", "Black"], sizes: ["38", "39", "40"] },
-        { id: 5, name: "Evening Heels", price: 399.99, image: "img 5.jpg", colors: ["Black", "Silver"], sizes: ["37", "38"] },
-        { id: 6, name: "Luxury Sandals", price: 325.00, image: "img 6.jpg", colors: ["Gold", "Silver"], sizes: ["36", "37", "38"] },
-        { id: 7, name: "Casual Loafers", price: 245.00, image: "img7.jpg", colors: ["Brown", "Black"], sizes: ["38", "39", "40"] },
-        { id: 8, name: "Designer Flats", price: 210.00, image: "img8.jpg", colors: ["Black", "Navy"], sizes: ["36", "37"] },
-        { id: 9, name: "Ankle Boots", price: 265.00, image: "img9.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"] },
-        { id: 10, name: "Platform Heels", price: 315.00, image: "img10.jpg", colors: ["Black", "Gold"], sizes: ["36", "37"] }
-        // Add more products as needed
+        { id: 1, name: "Gold Elegance Heels", price: 349.99, image: "img 1.jpg", colors: ["Gold", "Rose Gold"], sizes: ["36", "37", "38"], category: "heels" },
+        { id: 2, name: "Black Leather Boots", price: 289.99, image: "img 2.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
+        { id: 3, name: "Crystal Embellished Pumps", price: 425.50, image: "img 3.jpg", colors: ["Clear", "Gold"], sizes: ["36", "37", "38"], category: "heels" },
+        { id: 4, name: "Designer Sneakers", price: 275.00, image: "img 4.jpg", colors: ["White", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 5, name: "Evening Heels", price: 399.99, image: "img 5.jpg", colors: ["Black", "Silver"], sizes: ["37", "38"], category: "heels" },
+        { id: 6, name: "Luxury Sandals", price: 325.00, image: "img 6.jpg", colors: ["Gold", "Silver"], sizes: ["36", "37", "38"], category: "sandals" },
+        { id: 7, name: "Casual Loafers", price: 245.00, image: "img7.jpg", colors: ["Brown", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 8, name: "Designer Flats", price: 210.00, image: "img8.jpg", colors: ["Black", "Navy"], sizes: ["36", "37"], category: "sandals" },
+        { id: 9, name: "Ankle Boots", price: 265.00, image: "img9.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
+        { id: 10, name: "Platform Heels", price: 315.00, image: "img10.jpg", colors: ["Black", "Gold"], sizes: ["36", "37"], category: "heels" },
+        { id: 11, name: "Evening Pumps", price: 375.00, image: "img11.jpg", colors: ["Black", "Red"], sizes: ["37", "38"], category: "heels" },
+        { id: 12, name: "Leather Sandals", price: 195.00, image: "img12.jpg", colors: ["Brown", "Black"], sizes: ["36", "37", "38"], category: "sandals" },
+        { id: 13, name: "Designer Mules", price: 225.00, image: "img13.jpg", colors: ["White", "Black"], sizes: ["37", "38"], category: "sandals" },
+        { id: 14, name: "Casual Sneakers", price: 250.00, image: "img14.jpg", colors: ["White", "Gray"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 15, name: "Boots with Fur", price: 335.00, image: "img15.jpg", colors: ["Brown", "Black"], sizes: ["37", "38", "39"], category: "boots" },
+        { id: 16, name: "Designer Wedges", price: 290.00, image: "img16.jpg", colors: ["Beige", "Black"], sizes: ["36", "37"], category: "heels" },
+        { id: 17, name: "Oxford Shoes", price: 275.00, image: "img17.jpg", colors: ["Brown", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 18, name: "High Heels", price: 365.00, image: "img18.jpg", colors: ["Red", "Black"], sizes: ["36", "37"], category: "heels" },
+        { id: 19, name: "Espadrilles", price: 195.00, image: "img19.jpg", colors: ["White", "Blue"], sizes: ["37", "38"], category: "sandals" },
+        { id: 20, name: "Platform Boots", price: 345.00, image: "img20.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
+        { id: 21, name: "Slingback Heels", price: 310.00, image: "img21.jpg", colors: ["Nude", "Black"], sizes: ["36", "37"], category: "heels" },
+        { id: 22, name: "Premium Loafers", price: 255.00, image: "img22.jpg", colors: ["Brown", "Burgundy"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 23, name: "Ankle Strap Heels", price: 295.00, image: "img23.jpg", colors: ["Black", "Silver"], sizes: ["36", "37"], category: "heels" },
+        { id: 24, name: "Mary Janes", price: 265.00, image: "img24.jpg", colors: ["Black", "Brown"], sizes: ["37", "38"], category: "heels" },
+        { id: 25, name: "Kitten Heels", price: 245.00, image: "img25.jpg", colors: ["Nude", "Black"], sizes: ["36", "37"], category: "heels" },
+        { id: 26, name: "Brogues", price: 275.00, image: "img26.jpg", colors: ["Brown", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 27, name: "Ballet Flats", price: 185.00, image: "img27.jpg", colors: ["Black", "Red"], sizes: ["36", "37"], category: "sandals" },
+        { id: 28, name: "Gladiator Sandals", price: 225.00, image: "img28.jpg", colors: ["Brown", "Black"], sizes: ["37", "38"], category: "sandals" },
+        { id: 29, name: "Moccasins", price: 215.00, image: "img29.jpg", colors: ["Brown", "Tan"], sizes: ["38", "39"], category: "sneakers" },
+        { id: 30, name: "Designer Clogs", price: 235.00, image: "img30.jpg", colors: ["Black", "Brown"], sizes: ["37", "38"], category: "sandals" }
     ];
     
-    // Add to cart function
-    function addToCart(productId, quantity = 1, color = null, size = null) {
+    // Add to cart function - FIXED
+    window.addToCart = function(productId, quantity = 1, color = null, size = null) {
         const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
         const product = products.find(p => p.id === productId);
         
@@ -45,8 +64,12 @@
             return;
         }
         
-        // Check if product already in cart
-        const existingIndex = cart.findIndex(item => item.id === productId);
+        // Check if product already in cart with same variant
+        const existingIndex = cart.findIndex(item => 
+            item.id === productId && 
+            item.selectedColor === (color || product.colors[0]) && 
+            item.selectedSize === (size || product.sizes[0])
+        );
         
         if (existingIndex > -1) {
             cart[existingIndex].quantity += quantity;
@@ -65,7 +88,7 @@
         localStorage.setItem('elvianaCart', JSON.stringify(cart));
         updateCartCount();
         showNotification(`${product.name} added to cart!`);
-    }
+    };
     
     // Show notification
     function showNotification(message) {
@@ -79,14 +102,15 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: #D4AF37;
-            color: #000;
+            background: #ffffff;
+            color: #000000;
             padding: 15px 25px;
             border-radius: 10px;
             z-index: 10000;
             animation: slideIn 0.3s ease;
             font-weight: bold;
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border: 1px solid #333;
         `;
         
         document.body.appendChild(notification);
@@ -111,7 +135,7 @@
                 <div class="product-details-side">
                     <h2>${product.name}</h2>
                     <p class="product-price-large">$${product.price.toFixed(2)}</p>
-                    <p class="product-description">Premium luxury footwear with exquisite craftsmanship and attention to detail.</p>
+                    <p class="product-description">Premium luxury footwear with exquisite craftsmanship and attention to detail. Handcrafted using the finest materials.</p>
                     
                     <div class="variant-selector">
                         <h4 class="variant-title">Color:</h4>
@@ -201,7 +225,39 @@
         document.getElementById('overlay').style.display = 'none';
     };
     
-    // === YOUR ORIGINAL CODE ===
+    // Category filter - FIXED
+    function setupCategoryFilter() {
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                const category = this.dataset.category;
+                const allProducts = document.querySelectorAll('.product-card');
+                
+                if (category === 'all') {
+                    allProducts.forEach(product => {
+                        product.style.display = 'block';
+                    });
+                } else {
+                    allProducts.forEach(product => {
+                        const productId = parseInt(product.dataset.productId);
+                        const productData = products.find(p => p.id === productId);
+                        
+                        if (productData && productData.category === category) {
+                            product.style.display = 'block';
+                        } else {
+                            product.style.display = 'none';
+                        }
+                    });
+                }
+            });
+        });
+    }
+    
+    // === EVENT LISTENERS ===
     
     // WhatsApp button
     document.getElementById('whatsappPrimary')?.addEventListener('click', function(e) {
@@ -246,37 +302,19 @@
         }
     });
     
-    // Category filter
-    document.querySelectorAll('.category-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            // Remove active class from all buttons
-            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-            // Add active class to clicked button
-            this.classList.add('active');
-            
-            const category = this.dataset.category;
-            const allProducts = document.querySelectorAll('.product-card');
-            
-            if (category === 'all') {
-                allProducts.forEach(product => product.style.display = 'block');
-            } else {
-                allProducts.forEach(product => {
-                    // For demo, show all. In real implementation, filter by category
-                    product.style.display = 'block';
-                });
-            }
-        });
-    });
-    
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', function() {
         initializeCart();
+        setupCategoryFilter();
         
         // Show welcome alert on first visit
         if (!localStorage.getItem('elvianaWelcomeShown')) {
             setTimeout(() => {
-                document.getElementById('overlay').style.display = 'flex';
-                localStorage.setItem('elvianaWelcomeShown', 'true');
+                const overlay = document.getElementById('overlay');
+                if (overlay) {
+                    overlay.style.display = 'flex';
+                    localStorage.setItem('elvianaWelcomeShown', 'true');
+                }
             }, 1000);
         }
     });
