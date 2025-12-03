@@ -769,21 +769,57 @@
         }
     };
     
-    // Contact customer on WhatsApp
+        // Contact customer on WhatsApp - SENDS TO BOTH NUMBERS
     window.contactCustomer = function(orderId) {
         const orders = JSON.parse(localStorage.getItem('elvianaOrders') || '[]');
         const order = orders.find(o => o.id === orderId);
         
         if (order && order.customer.phone) {
-            const phone = order.customer.phone.replace(/\D/g, '');
+            const customerPhone = order.customer.phone.replace(/\D/g, '');
             let message = `Hello ${order.customer.name},\n\n`;
-            message += `This is Elviana Luxe regarding your order #${order.id.toString().slice(-6)}.\n`;
-            message += `Order Status: ${order.status || 'pending'}\n`;
-            message += `Total: $${order.total.toFixed(2)}\n\n`;
-            message += `Please let us know if you have any questions.`;
+            message += `This is Elviana Luxe regarding your order #${order.orderId || order.id.toString().slice(-6)}.\n`;
+            message += `📦 Order Status: ${order.status || 'pending'}\n`;
+            message += `💰 Total: $${order.total.toFixed(2)}\n\n`;
+            
+            if (order.status === 'pending') {
+                message += `Your order is being processed. We'll update you once it's shipped.\n`;
+            } else if (order.status === 'processing') {
+                message += `Your order is being prepared for shipment.\n`;
+            } else if (order.status === 'shipped') {
+                message += `Your order has been shipped! Tracking details will be sent shortly.\n`;
+            } else if (order.status === 'delivered') {
+                message += `Your order has been delivered. Thank you for shopping with us!\n`;
+            }
+            
+            message += `\nIf you have any questions, please reply to this message.\n\n`;
+            message += `Best regards,\nElviana Luxe Team`;
             
             const encodedMessage = encodeURIComponent(message);
-            window.open(`https://wa.me/${phone}?text=${encodedMessage}`, '_blank');
+            
+            // Copy order info to notify both business numbers
+            let businessMessage = `📞 *FOLLOW-UP NEEDED*\n`;
+            businessMessage += `Customer: ${order.customer.name}\n`;
+            businessMessage += `Order: #${order.orderId || order.id.toString().slice(-6)}\n`;
+            businessMessage += `Status: ${order.status || 'pending'}\n`;
+            businessMessage += `Total: $${order.total.toFixed(2)}\n`;
+            businessMessage += `Customer Phone: ${order.customer.phone}`;
+            
+            const encodedBusinessMessage = encodeURIComponent(businessMessage);
+            
+            // Open chat with customer
+            window.open(`https://wa.me/${customerPhone}?text=${encodedMessage}`, '_blank');
+            
+            // After 1 second, notify both business numbers
+            setTimeout(() => {
+                // Notify first business number
+                window.open(`https://wa.me/2347063327418?text=${encodedBusinessMessage}`, '_blank');
+                
+                // After another second, notify second business number
+                setTimeout(() => {
+                    window.open(`https://wa.me/2348130821583?text=${encodedBusinessMessage}`, '_blank');
+                }, 1000);
+            }, 1000);
+            
         } else {
             alert('Customer phone number not found.');
         }
@@ -984,3 +1020,4 @@
 </body>
 
 </html>
+
