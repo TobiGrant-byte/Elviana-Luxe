@@ -42,7 +42,7 @@
         });
     }
     
-    // Product database - Updated for all 31 items
+    // Product database
     const products = [
         { id: 1, name: "Gold Elegance Heels", price: 349.99, image: "img 1.jpg", colors: ["Gold", "Rose Gold"], sizes: ["36", "37", "38"], category: "heels" },
         { id: 2, name: "Black Leather Boots", price: 289.99, image: "img 2.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
@@ -76,7 +76,7 @@
         { id: 30, name: "Designer Clogs", price: 235.00, image: "img30.jpg", colors: ["Black", "Brown"], sizes: ["37", "38"], category: "sandals" }
     ];
     
-    // Add to cart function - FIXED
+    // Add to cart function
     window.addToCart = function(productId, quantity = 1, color = null, size = null) {
         const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
         const product = products.find(p => p.id === productId);
@@ -242,7 +242,7 @@
         }, 1000);
     };
     
-    // Category filter - FIXED
+    // Category filter
     function setupCategoryFilter() {
         document.querySelectorAll('.category-btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -274,9 +274,7 @@
         });
     }
     
-    // === EVENT LISTENERS ===
-    
-    // WhatsApp button - SENDS TO BOTH NUMBERS
+    // WhatsApp button - SENDS ORDER INQUIRY
     document.getElementById('whatsappPrimary')?.addEventListener('click', function(e) {
         const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
         
@@ -285,24 +283,24 @@
             
             // Create order summary for WhatsApp
             let message = `🛍️ *NEW ORDER INQUIRY - ELVIANA LUXE*\n\n`;
-            message += `👤 *CUSTOMER INQUIRY:*\n`;
+            message += `_Customer is interested in these items:_\n\n`;
             
             cart.forEach((item, index) => {
-                message += `${index + 1}. *${item.name}*\n`;
-                message += `   🎨 Color: ${item.selectedColor}\n`;
-                message += `   📏 Size: ${item.selectedSize}\n`;
-                message += `   🔢 Quantity: ${item.quantity}\n`;
-                message += `   💵 Price: $${(item.price * item.quantity).toFixed(2)}\n\n`;
+                message += `*${index + 1}. ${item.name}*\n`;
+                message += `🎨 Color: ${item.selectedColor}\n`;
+                message += `📏 Size: ${item.selectedSize}\n`;
+                message += `🔢 Quantity: ${item.quantity}\n`;
+                message += `💵 Price: $${(item.price * item.quantity).toFixed(2)}\n\n`;
             });
             
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             message += `💰 *TOTAL: $${total.toFixed(2)}*\n\n`;
-            message += `_I'm interested in these items. Please provide availability and shipping details._`;
+            message += `_Please contact customer for shipping and payment details._`;
             
             const encodedMessage = encodeURIComponent(message);
             
             // Send to FIRST WhatsApp number
-            window.open(`https://wa.me/2347063327418?text=${encodedMessage}`, '_blank');
+            const whatsapp1 = window.open(`https://wa.me/2347063327418?text=${encodedMessage}`, '_blank');
             
             // After 1 second, send to SECOND WhatsApp number
             setTimeout(() => {
