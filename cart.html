@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Your Cart - Elviana Luxe</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="ecommerce.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    /* Additional cart page styles */
+    .page-title {
+        text-align: center;
+        margin: 40px 0;
+        font-size: 2.5rem;
+        color: #fff;
+    }
+
+    .cart-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 40px;
+        margin: 40px 0;
+    }
+
+    @media (max-width: 768px) {
+        .cart-container {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .cart-item {
+        display: grid;
+        grid-template-columns: 100px 2fr 1fr 1fr auto;
+        gap: 20px;
+        align-items: center;
+        padding: 20px;
+        border-bottom: 1px solid #333;
+    }
+
+    .cart-item-image {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .cart-item-details h3 {
+        margin: 0 0 10px 0;
+        color: #fff;
+    }
+
+    .cart-item-variant {
+        color: #aaa;
+        font-size: 14px;
+        margin: 5px 0;
+    }
+
+    .cart-item-price {
+        color: #D4AF37;
+        font-weight: bold;
+    }
+
+    .cart-item-quantity {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .cart-item-qty {
+        min-width: 30px;
+        text-align: center;
+        color: #fff;
+    }
+
+    .cart-item-total {
+        color: #fff;
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .cart-item-remove {
+        background: transparent;
+        border: 1px solid #ff6b6b;
+        color: #ff6b6b;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .cart-item-remove:hover {
+        background: #ff6b6b;
+        color: #000;
+    }
+
+    .empty-cart {
+        text-align: center;
+        padding: 60px 20px;
+        color: #aaa;
+        grid-column: 1 / -1;
+    }
+
+    .empty-cart i {
+        color: #D4AF37;
+        margin-bottom: 20px;
+    }
+
+    .empty-cart h2 {
+        color: #fff;
+        margin: 20px 0 10px 0;
+    }
+
+    .cart-summary {
+        background: #0f0f0f;
+        padding: 30px;
+        border-radius: 16px;
+        border: 1px solid #333;
+        position: sticky;
+        top: 20px;
+        height: fit-content;
+    }
+
+    .cart-summary h3 {
+        color: #fff;
+        margin-top: 0;
+        border-bottom: 1px solid #333;
+        padding-bottom: 15px;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin: 15px 0;
+        color: #aaa;
+    }
+
+    .summary-row.total {
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+        border-top: 1px solid #333;
+        padding-top: 15px;
+        margin-top: 25px;
+    }
+
+    .btn-checkout {
+        background: #D4AF37;
+        color: #000;
+        border: none;
+        width: 100%;
+        padding: 15px;
+        font-size: 16px;
+        font-weight: bold;
+        margin: 20px 0 10px 0;
+    }
+
+    .btn-checkout:hover {
+        background: #e6c158;
+    }
+</style>
+</head>
+<body>
+<header class="site-header">
+<div class="brand">
+<img src="/assets/Elviana Luxe logo.jpg" alt="Elviana Luxe logo" id="logo" />
+<h1>ELVIANA LUXE</h1>
+</div>
+<nav class="top-links">
+<a href="index.html"><i class="fas fa-home"></i> Home</a>
+<a href="index.html#gallery"><i class="fas fa-shoe-prints"></i> Continue Shopping</a>
+<a href="cart.html" style="color: #D4AF37;"><i class="fas fa-shopping-bag"></i> Cart (<span id="cart-count">0</span>)</a>
+<a href="admin.html"><i class="fas fa-lock"></i> Admin</a>
+</nav>
+</header>
+
+<main class="container">
+<h1 class="page-title">Your Shopping Bag</h1>
+
+<div class="cart-container">
+    <div class="cart-items" id="cartItems">
+        <!-- Cart items will be loaded here -->
+        <div class="empty-cart" id="emptyCart">
+            <i class="fas fa-shopping-bag fa-3x"></i>
+            <h2>Your bag is empty</h2>
+            <p>Add some luxurious footwear to get started</p>
+            <a href="index.html" class="btn btn-cart">Browse Collection</a>
+        </div>
+    </div>
+    
+    <div class="cart-summary">
+        <h3>Order Summary</h3>
+        <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="subtotal">$0.00</span>
+        </div>
+        <div class="summary-row">
+            <span>Shipping</span>
+            <span id="shipping">Calculated at checkout</span>
+        </div>
+        <div class="summary-row total">
+            <span>Total</span>
+            <span id="total">$0.00</span>
+        </div>
+        <button class="btn btn-checkout" id="checkoutBtn">Proceed to Checkout</button>
+        <button class="btn btn-whatsapp" id="whatsappCheckout">
+            <i class="fab fa-whatsapp"></i> Order via WhatsApp
+        </button>
+        <a href="index.html" class="link-muted">Continue Shopping</a>
+    </div>
+</div>
+</main>
+
+<footer class="site-footer">
+    <p>Elviana Luxe © 2025</p>
+</footer>
+
+<script>
+// Cart Page Functionality
+(function() {
+    // Load cart items
+    function loadCartItems() {
+        const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
+        const cartItemsEl = document.getElementById('cartItems');
+        const emptyCartEl = document.getElementById('emptyCart');
+        
+        if (cart.length === 0) {
+            emptyCartEl.style.display = 'block';
+            updateSummary(0);
+            updateCartCount();
+            return;
+        }
+        
+        emptyCartEl.style.display = 'none';
+        
+        cartItemsEl.innerHTML = cart.map(item => `
+            <div class="cart-item" data-item-id="${item.id}">
+                <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                <div class="cart-item-details">
+                    <h3>${item.name}</h3>
+                    <p class="cart-item-variant">${item.selectedColor} • Size ${item.selectedSize}</p>
+                    <p class="cart-item-price">$${item.price.toFixed(2)}</p>
+                </div>
+                <div class="cart-item-quantity">
+                    <button class="qty-btn" onclick="updateCartQuantity(${item.id}, -1)">-</button>
+                    <span class="cart-item-qty">${item.quantity}</span>
+                    <button class="qty-btn" onclick="updateCartQuantity(${item.id}, 1)">+</button>
+                </div>
+                <div class="cart-item-total">
+                    $${(item.price * item.quantity).toFixed(2)}
+                </div>
+                <button class="cart-item-remove" onclick="removeFromCart(${item.id}, '${item.selectedColor}', '${item.selectedSize}')">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        `).join('');
+        
+        // Calculate totals
+        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        updateSummary(subtotal);
+        updateCartCount();
+    }
+
+    // Update cart quantity
+    window.updateCartQuantity = function(productId, change) {
+        const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
+        const itemIndex = cart.findIndex(item => item.id === productId);
+        
+        if (itemIndex > -1) {
+            cart[itemIndex].quantity += change;
+            
+            // Remove if quantity reaches 0
+            if (cart[itemIndex].quantity <= 0) {
+                cart.splice(itemIndex, 1);
+            }
+            
+            localStorage.setItem('elvianaCart', JSON.stringify(cart));
+            loadCartItems();
+        }
+    };
+
+    // Remove from cart
+    window.removeFromCart = function(productId, color, size) {
+        const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
+        const newCart = cart.filter(item => 
+            !(item.id === productId && item.selectedColor === color && item.selectedSize === size)
+        );
+        
+        localStorage.setItem('elvianaCart', JSON.stringify(newCart));
+        loadCartItems();
+    };
+
+    // Update order summary
+    function updateSummary(subtotal) {
+        document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+        document.getElementById('total').textContent = `$${subtotal.toFixed(2)}`;
+    }
+
+    // Update cart count in header
+    function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
+        const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+        document.getElementById('cart-count').textContent = cartCount;
+    }
+
+    // Checkout button
+    document.getElementById('checkoutBtn')?.addEventListener('click', function() {
+        alert('Checkout functionality would be implemented here. For now, use WhatsApp ordering.');
+    });
+
+    // WhatsApp checkout button
+    document.getElementById('whatsappCheckout')?.addEventListener('click', function() {
+        const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
+        if (cart.length === 0) {
+            window.open('https://wa.me/2347063327418', '_blank');
+        } else {
+            // Create order summary
+            let message = "Hello! I'd like to order from Elviana Luxe:\n\n";
+            cart.forEach((item, index) => {
+                message += `${index + 1}. ${item.name} (${item.selectedColor}, Size ${item.selectedSize}) x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}\n`;
+            });
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            message += `\nTotal: $${total.toFixed(2)}\n\nPlease provide:\nName: \nAddress: \nPhone: `;
+            
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/2347063327418?text=${encodedMessage}`, '_blank');
+        }
+    });
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        loadCartItems();
+    });
+
+})();
+</script>
+</body>
+</html>

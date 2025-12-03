@@ -1,0 +1,52 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Gold Heeled Sandals",
+      "description": "Handcrafted luxury sandals with 24k gold accents. Perfect for formal events and special occasions.",
+      "price": 349.99,
+      "images": ["img1.jpg", "img2.jpg", "img3.jpg"],
+      "colors": ["Gold", "Rose Gold", "Silver"],
+      "sizes": ["36", "37", "38", "39", "40", "41"],
+      "category": "heels",
+      "inStock": true,
+      "featured": true
+    },
+    {
+      "id": 2,
+      "name": "Black Leather Boots",
+      "description": "Premium Italian leather boots with custom stitching. Waterproof and durable.",
+      "price": 289.99,
+      "images": ["img4.jpg", "img5.jpg"],
+      "colors": ["Black", "Brown", "Navy"],
+      "sizes": ["36", "37", "38", "39", "40"],
+      "category": "boots",
+      "inStock": true,
+      "featured": true
+    },
+    {
+      "id": 3,
+      "name": "Crystal Embellished Pumps",
+      "description": "Evening pumps adorned with Swarovski crystals. Limited edition.",
+      "price": 425.50,
+      "images": ["img6.jpg", "img7.jpg", "img8.jpg"],
+      "colors": ["Clear Crystal", "Gold Crystal", "Silver Crystal"],
+      "sizes": ["36", "37", "38", "39"],
+      "category": "heels",
+      "inStock": true,
+      "featured": true
+    },
+    {
+      "id": 4,
+      "name": "Designer Sneakers",
+      "description": "Luxury streetwear sneakers with custom embroidery.",
+      "price": 275.00,
+      "images": ["img9.jpg", "img10.jpg"],
+      "colors": ["White", "Black", "Beige"],
+      "sizes": ["37", "38", "39", "40", "41", "42"],
+      "category": "sneakers",
+      "inStock": true,
+      "featured": false
+    }
+  ]
+}
