@@ -1,6 +1,6 @@
-// ELVIANA LUXE E-COMMERCE SYSTEM - FIXED VERSION
+// ELVIANA LUXE E-COMMERCE SYSTEM - COMPLETE FIXED VERSION
 (function() {
-    // === FIX: ALERT BOX ON FIRST VISIT ===
+    // === FIX 1: ALERT BOX ON FIRST VISIT ===
     // Show welcome alert on first visit
     window.addEventListener('load', function() {
         if (!localStorage.getItem('elvianaWelcomeShown')) {
@@ -22,11 +22,6 @@
         }
     };
     
-    // Rest of your script.js code continues here...
-    // (your existing initializeCart, addToCart, etc.)
-
-// ELVIANA LUXE E-COMMERCE SYSTEM - FIXED VERSION
-(function() {
     // === CORE FUNCTIONALITY ===
     
     // Initialize cart
@@ -247,11 +242,6 @@
         }, 1000);
     };
     
-    // Close alert
-    window.closeAlert = function() {
-        document.getElementById('overlay').style.display = 'none';
-    };
-    
     // Category filter - FIXED
     function setupCategoryFilter() {
         document.querySelectorAll('.category-btn').forEach(btn => {
@@ -286,20 +276,41 @@
     
     // === EVENT LISTENERS ===
     
-    // WhatsApp button
+    // WhatsApp button - SENDS TO BOTH NUMBERS
     document.getElementById('whatsappPrimary')?.addEventListener('click', function(e) {
         const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
+        
         if (cart.length > 0) {
             e.preventDefault();
-            let message = "Hello! I'd like to order from Elviana Luxe:\n\n";
+            
+            // Create order summary for WhatsApp
+            let message = `🛍️ *NEW ORDER INQUIRY - ELVIANA LUXE*\n\n`;
+            message += `👤 *CUSTOMER INQUIRY:*\n`;
+            
             cart.forEach((item, index) => {
-                message += `${index + 1}. ${item.name} (${item.selectedColor}, Size ${item.selectedSize}) x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}\n`;
+                message += `${index + 1}. *${item.name}*\n`;
+                message += `   🎨 Color: ${item.selectedColor}\n`;
+                message += `   📏 Size: ${item.selectedSize}\n`;
+                message += `   🔢 Quantity: ${item.quantity}\n`;
+                message += `   💵 Price: $${(item.price * item.quantity).toFixed(2)}\n\n`;
             });
+            
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            message += `\nTotal: $${total.toFixed(2)}\n\nPlease provide:\nName: \nAddress: \nPhone: `;
+            message += `💰 *TOTAL: $${total.toFixed(2)}*\n\n`;
+            message += `_I'm interested in these items. Please provide availability and shipping details._`;
+            
             const encodedMessage = encodeURIComponent(message);
+            
+            // Send to FIRST WhatsApp number
             window.open(`https://wa.me/2347063327418?text=${encodedMessage}`, '_blank');
+            
+            // After 1 second, send to SECOND WhatsApp number
+            setTimeout(() => {
+                window.open(`https://wa.me/2348130821583?text=${encodedMessage}`, '_blank');
+            }, 1000);
+            
         } else {
+            // If cart is empty, just open WhatsApp for general inquiry
             window.open('https://wa.me/2347063327418', '_blank');
         }
     });
@@ -333,17 +344,6 @@
     document.addEventListener('DOMContentLoaded', function() {
         initializeCart();
         setupCategoryFilter();
-        
-        // Show welcome alert on first visit
-        if (!localStorage.getItem('elvianaWelcomeShown')) {
-            setTimeout(() => {
-                const overlay = document.getElementById('overlay');
-                if (overlay) {
-                    overlay.style.display = 'flex';
-                    localStorage.setItem('elvianaWelcomeShown', 'true');
-                }
-            }, 1000);
-        }
     });
     
     // Add CSS animations
@@ -357,8 +357,32 @@
             from { transform: translateX(0); opacity: 1; }
             to { transform: translateX(100%); opacity: 0; }
         }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
     `;
     document.head.appendChild(style);
     
 })();
 
+// === ORIGINAL CODE (for backward compatibility) ===
+(function(){
+    // WhatsApp primary button opens chat with the first number
+    var btn = document.getElementById('whatsappPrimary');
+    btn && btn.addEventListener('click', function(){
+        // opens the first WhatsApp contact in a new tab
+        window.open('https://wa.me/2347063327418', '_blank');
+    });
+
+    // Lightweight image placeholder fallback: if an image fails to load, show a subtle placeholder
+    document.querySelectorAll('.card img').forEach(function(img){
+        img.addEventListener('error', function(){
+            img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="100%" height="100%" fill="%230a0a0a"/><text x="50%" y="50%" fill="%239a9a9a" font-family="Verdana" font-size="20" dominant-baseline="middle" text-anchor="middle">Image not available</text></svg>';
+        });
+    });
+})();
