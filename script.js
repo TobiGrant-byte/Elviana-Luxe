@@ -1,5 +1,32 @@
 // ELVIANA LUXE E-COMMERCE SYSTEM - FIXED VERSION
 (function() {
+    // === FIX: ALERT BOX ON FIRST VISIT ===
+    // Show welcome alert on first visit
+    window.addEventListener('load', function() {
+        if (!localStorage.getItem('elvianaWelcomeShown')) {
+            setTimeout(() => {
+                const overlay = document.getElementById('overlay');
+                if (overlay) {
+                    overlay.style.display = 'flex';
+                    localStorage.setItem('elvianaWelcomeShown', 'true');
+                }
+            }, 1000);
+        }
+    });
+
+    // Close alert function
+    window.closeAlert = function() {
+        const overlay = document.getElementById('overlay');
+        if (overlay) {
+            overlay.style.display = 'none';
+        }
+    };
+    
+    // Rest of your script.js code continues here...
+    // (your existing initializeCart, addToCart, etc.)
+
+// ELVIANA LUXE E-COMMERCE SYSTEM - FIXED VERSION
+(function() {
     // === CORE FUNCTIONALITY ===
     
     // Initialize cart
@@ -334,3 +361,4 @@
     document.head.appendChild(style);
     
 })();
+
