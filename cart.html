@@ -7,214 +7,55 @@
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-    /* Additional cart page styles */
-    .page-title {
-        text-align: center;
-        margin: 40px 0;
-        font-size: 2.5rem;
-        color: #fff;
-    }
-
-    .cart-container {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        gap: 40px;
-        margin: 40px 0;
-    }
-
-    @media (max-width: 768px) {
-        .cart-container {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    .cart-item {
-        display: grid;
-        grid-template-columns: 100px 2fr 1fr 1fr auto;
-        gap: 20px;
-        align-items: center;
-        padding: 20px;
-        border-bottom: 1px solid #333;
-        background: rgba(255,255,255,0.02);
-        border-radius: 12px;
-        margin-bottom: 10px;
-    }
-
-    .cart-item-image {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        border-radius: 8px;
-        border: 1px solid #333;
-    }
-
-    .cart-item-details h3 {
-        margin: 0 0 10px 0;
-        color: #fff;
-    }
-
-    .cart-item-variant {
-        color: #aaa;
-        font-size: 14px;
-        margin: 5px 0;
-    }
-
-    .cart-item-price {
-        color: #fff;
-        font-weight: bold;
-    }
-
-    .cart-item-quantity {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .cart-item-qty {
-        min-width: 30px;
-        text-align: center;
-        color: #fff;
-        font-weight: bold;
-    }
-
-    .cart-item-total {
-        color: #fff;
-        font-weight: bold;
-        font-size: 18px;
-    }
-
-    .cart-item-remove {
+    /* Cart page styles - same as before but add clear cart button */
+    .clear-cart-btn {
         background: transparent;
         border: 1px solid #ff6b6b;
         color: #ff6b6b;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
+        padding: 10px 20px;
+        border-radius: 8px;
         cursor: pointer;
         display: flex;
         align-items: center;
-        justify-content: center;
+        gap: 8px;
+        margin-left: auto;
         transition: all 0.3s ease;
     }
-
-    .cart-item-remove:hover {
+    
+    .clear-cart-btn:hover {
         background: #ff6b6b;
         color: #000;
-        transform: rotate(90deg);
     }
-
-    .empty-cart {
-        text-align: center;
-        padding: 60px 20px;
-        color: #aaa;
-        grid-column: 1 / -1;
-        background: rgba(255,255,255,0.02);
-        border-radius: 16px;
-        border: 1px solid #333;
-    }
-
-    .empty-cart i {
-        color: #fff;
-        margin-bottom: 20px;
-    }
-
-    .empty-cart h2 {
-        color: #fff;
-        margin: 20px 0 10px 0;
-    }
-
-    .cart-summary {
-        background: #0f0f0f;
-        padding: 30px;
-        border-radius: 16px;
-        border: 1px solid #333;
-        position: sticky;
-        top: 20px;
-        height: fit-content;
-    }
-
-    .cart-summary h3 {
-        color: #fff;
-        margin-top: 0;
-        border-bottom: 1px solid #333;
-        padding-bottom: 15px;
-    }
-
-    .summary-row {
+    
+    .cart-header {
         display: flex;
         justify-content: space-between;
-        margin: 15px 0;
-        color: #aaa;
-    }
-
-    .summary-row.total {
-        color: #fff;
-        font-size: 18px;
-        font-weight: bold;
-        border-top: 1px solid #333;
-        padding-top: 15px;
-        margin-top: 25px;
-    }
-
-    .btn-checkout {
-        background: #fff;
-        color: #000;
-        border: none;
-        width: 100%;
-        padding: 15px;
-        font-size: 16px;
-        font-weight: bold;
-        margin: 20px 0 10px 0;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .btn-checkout:hover {
-        background: #e0e0e0;
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(255,255,255,0.1);
-    }
-
-    /* Cart page button styles */
-    .cart-summary .btn-whatsapp {
-        background: #25D366;
-        color: white;
-        border: none;
-        width: 100%;
-        padding: 15px;
-        margin: 10px 0;
-        border-radius: 10px;
-    }
-
-    .cart-summary .btn-whatsapp:hover {
-        background: #128C7E;
-    }
-
-    .cart-summary .link-muted {
-        display: block;
-        text-align: center;
-        margin-top: 15px;
+        align-items: center;
+        margin-bottom: 20px;
     }
 </style>
 </head>
 <body>
 <header class="site-header">
 <div class="brand">
-<img src="Elviana Luxe logo.jpg" alt="Elviana Luxe logo" id="logo" />
+<img src="/assets/Elviana Luxe logo.jpg" alt="Elviana Luxe logo" id="logo" />
 <h1>ELVIANA LUXE</h1>
 </div>
 <nav class="top-links">
 <a href="index.html"><i class="fas fa-home"></i> Home</a>
-<a href="index.html#gallery"><i class="fas fa-shoe-prints"></i> Continue Shopping</a>
+<a href="index.html#gallery"><i class="fas fa-shoe-prints"></i> Shop</a>
 <a href="cart.html" style="color: #fff;"><i class="fas fa-shopping-bag"></i> Cart (<span id="cart-count">0</span>)</a>
-<a href="https://www.instagram.com/reel/DRDAQZbDAiZ/?igsh=bWVjdmN5ZHlmdXJs" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-<a href="https://www.tiktok.com/@elvianaluxe_?_r=1&_t=ZS-91RaxdXc2Px" target="_blank" rel="noopener"><i class="fab fa-tiktok"></i></a>
+<a href="admin.html"><i class="fas fa-lock"></i> Admin</a>
 </nav>
 </header>
 
 <main class="container">
-<h1 class="page-title">Your Shopping Bag</h1>
+<div class="cart-header">
+    <h1 class="page-title">Your Shopping Bag</h1>
+    <button class="clear-cart-btn" id="clearCartBtn">
+        <i class="fas fa-trash"></i> Clear Cart
+    </button>
+</div>
 
 <div class="cart-container">
     <div class="cart-items" id="cartItems">
@@ -300,7 +141,7 @@
         updateCartCount();
     }
 
-    // Update cart quantity - FIXED
+    // Update cart quantity
     window.updateCartQuantity = function(itemIndex, change) {
         const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
         
@@ -317,7 +158,7 @@
         }
     };
 
-    // Remove from cart - FIXED
+    // Remove from cart
     window.removeFromCart = function(itemIndex) {
         const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
         
@@ -327,6 +168,22 @@
             loadCartItems();
         }
     };
+
+    // CLEAR CART BUTTON - FIXED
+    document.getElementById('clearCartBtn')?.addEventListener('click', function() {
+        const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
+        
+        if (cart.length === 0) {
+            alert('Your cart is already empty.');
+            return;
+        }
+        
+        if (confirm(`Are you sure you want to clear your cart? This will remove ${cart.length} item(s).`)) {
+            localStorage.removeItem('elvianaCart');
+            loadCartItems();
+            alert('Cart cleared successfully!');
+        }
+    });
 
     // Update order summary
     function updateSummary(subtotal) {
@@ -340,8 +197,8 @@
         const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
         document.getElementById('cart-count').textContent = cartCount;
     }
-        
-        // CHECKOUT FUNCTION - SENDS TO BOTH WHATSAPP NUMBERS
+
+    // CHECKOUT FUNCTION - SENDS TO BOTH WHATSAPP NUMBERS (GUARANTEED)
     document.getElementById('checkoutBtn')?.addEventListener('click', function() {
         const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
         if (cart.length === 0) {
@@ -349,88 +206,105 @@
             return;
         }
         
-        // Get customer information
-        const name = prompt('Enter your full name:');
-        if (!name) return;
+        // Create a simple form for customer info
+        const name = prompt('📝 Enter your full name:');
+        if (!name || name.trim() === '') {
+            alert('Name is required to place an order.');
+            return;
+        }
         
-        const address = prompt('Enter your shipping address:');
-        if (!address) return;
+        const address = prompt('📍 Enter your shipping address:');
+        if (!address || address.trim() === '') {
+            alert('Shipping address is required to place an order.');
+            return;
+        }
         
-        const phone = prompt('Enter your phone number:');
-        if (!phone) return;
+        const phone = prompt('📱 Enter your phone number:');
+        if (!phone || phone.trim() === '') {
+            alert('Phone number is required to place an order.');
+            return;
+        }
         
-        // Create detailed order summary
-        let message = `🛍️ *NEW ORDER - ELVIANA LUXE*\n`;
-        message += `📅 ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}\n\n`;
-        message += `👤 *CUSTOMER INFORMATION:*\n`;
-        message += `• Name: ${name}\n`;
-        message += `• Address: ${address}\n`;
-        message += `• Phone: ${phone}\n\n`;
-        message += `📦 *ORDER DETAILS:*\n`;
+        // Generate order ID
+        const orderId = `ELV${Date.now().toString().slice(-8)}`;
+        const orderDate = new Date().toLocaleString();
+        
+        // Create URGENT WhatsApp message
+        let message = `🚨 *URGENT: NEW ORDER - ELVIANA LUXE* 🚨\n\n`;
+        message += `🆔 *Order ID:* ${orderId}\n`;
+        message += `🕒 *Order Time:* ${orderDate}\n\n`;
+        message += `👤 *CUSTOMER DETAILS:*\n`;
+        message += `• 📛 Name: ${name}\n`;
+        message += `• 📍 Address: ${address}\n`;
+        message += `• 📱 Phone: ${phone}\n\n`;
+        message += `📦 *ORDER ITEMS:*\n\n`;
         
         cart.forEach((item, index) => {
-            message += `\n${index + 1}. *${item.name}*\n`;
+            message += `✅ *Item ${index + 1}: ${item.name}*\n`;
             message += `   🎨 Color: ${item.selectedColor}\n`;
             message += `   📏 Size: ${item.selectedSize}\n`;
             message += `   🔢 Quantity: ${item.quantity}\n`;
-            message += `   💵 Price: $${(item.price * item.quantity).toFixed(2)}\n`;
+            message += `   💰 Price: $${item.price.toFixed(2)} each\n`;
+            message += `   💵 Subtotal: $${(item.price * item.quantity).toFixed(2)}\n\n`;
         });
         
         const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        message += `\n────────────────────\n`;
-        message += `💰 *TOTAL AMOUNT: $${total.toFixed(2)}*\n`;
-        message += `🚚 *SHIPPING:* To be calculated\n`;
-        message += `💳 *PAYMENT:* Cash on Delivery\n\n`;
-        message += `✅ *ORDER STATUS:* Pending\n`;
-        message += `⏰ *ORDER ID:* ELV${Date.now().toString().slice(-6)}\n\n`;
-        message += `_Thank you for shopping with Elviana Luxe!_`;
+        message += `💰 *ORDER SUMMARY:*\n`;
+        message += `• Subtotal: $${total.toFixed(2)}\n`;
+        message += `• Shipping: To be calculated\n`;
+        message += `• Payment: Cash on Delivery\n`;
+        message += `• Status: ⏳ Pending\n\n`;
+        message += `📋 *ACTION REQUIRED:*\n`;
+        message += `1. Contact customer to confirm\n`;
+        message += `2. Calculate shipping cost\n`;
+        message += `3. Prepare items for shipment\n\n`;
+        message += `⚡ *THIS IS A LIVE ORDER - RESPOND URGENTLY* ⚡`;
         
-        // Generate unique order ID
-        const orderId = Date.now();
-        const shortOrderId = `ELV${orderId.toString().slice(-6)}`;
+        // Clean WhatsApp numbers (NO + sign, NO spaces)
+        const whatsappNumber1 = "2347063327418";
+        const whatsappNumber2 = "2348130821583";
         
-        // Save order to localStorage - CRITICAL FOR ADMIN PANEL
-        const orders = JSON.parse(localStorage.getItem('elvianaOrders') || '[]');
-        const newOrder = {
-            id: orderId,
-            orderId: shortOrderId,
-            date: new Date().toISOString(),
-            customer: { 
-                name: name, 
-                address: address, 
-                phone: phone 
-            },
-            items: [...cart], // Copy cart items
-            total: total,
-            status: 'pending'
-        };
-        
-        orders.push(newOrder);
-        localStorage.setItem('elvianaOrders', JSON.stringify(orders));
-        
-        // Clear the cart after order
-        localStorage.removeItem('elvianaCart');
-        
-        // Send order to BOTH WhatsApp numbers
         const encodedMessage = encodeURIComponent(message);
         
-        // Send to FIRST number
-        window.open(`https://wa.me/2347063327418?text=${encodedMessage}`, '_blank');
+        // Save order to localStorage (for admin on THIS device)
+        const orders = JSON.parse(localStorage.getItem('elvianaOrders') || '[]');
+        orders.push({
+            id: Date.now(),
+            orderId: orderId,
+            date: new Date().toISOString(),
+            customer: { name, address, phone },
+            items: [...cart],
+            total: total,
+            status: 'pending',
+            device: 'customer'
+        });
+        localStorage.setItem('elvianaOrders', JSON.stringify(orders));
         
-        // After 1 second, send to SECOND number
+        // Clear cart
+        localStorage.removeItem('elvianaCart');
+        
+        // Send to BOTH WhatsApp numbers - NEW WINDOWS
+        // First number
+        const win1 = window.open(`https://wa.me/${whatsappNumber1}?text=${encodedMessage}`, '_blank');
+        
+        // Second number (after delay)
         setTimeout(() => {
-            window.open(`https://wa.me/2348130821583?text=${encodedMessage}`, '_blank');
-        }, 1000);
+            const win2 = window.open(`https://wa.me/${whatsappNumber2}?text=${encodedMessage}`, '_blank');
+        }, 800);
         
-        // Show confirmation
-        alert(`✅ Order #${shortOrderId} placed successfully!\n\nYour order has been sent to both our WhatsApp numbers.\n\nPlease check WhatsApp for order confirmation.`);
+        // Show success message
+        alert(`✅ ORDER PLACED SUCCESSFULLY!\n\nOrder ID: ${orderId}\n\nYour order has been sent to:\n1. +234 706 332 7418\n2. +234 813 082 1583\n\nPlease check WhatsApp for order confirmation from our team.`);
         
-        // Reload cart items to show empty state
+        // Reload cart
         setTimeout(() => {
             loadCartItems();
-        }, 500);
+            // Redirect to home after 2 seconds
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+        }, 1000);
     });
-    
+
     // WhatsApp checkout button
     document.getElementById('whatsappCheckout')?.addEventListener('click', function() {
         const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
@@ -459,6 +333,3 @@
 </script>
 </body>
 </html>
-
-
-
