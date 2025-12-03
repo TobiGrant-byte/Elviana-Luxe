@@ -340,7 +340,7 @@
         const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
         document.getElementById('cart-count').textContent = cartCount;
     }
-
+        
         // CHECKOUT FUNCTION - SENDS TO BOTH WHATSAPP NUMBERS
     document.getElementById('checkoutBtn')?.addEventListener('click', function() {
         const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
@@ -385,17 +385,27 @@
         message += `⏰ *ORDER ID:* ELV${Date.now().toString().slice(-6)}\n\n`;
         message += `_Thank you for shopping with Elviana Luxe!_`;
         
-        // Save order to localStorage
+        // Generate unique order ID
+        const orderId = Date.now();
+        const shortOrderId = `ELV${orderId.toString().slice(-6)}`;
+        
+        // Save order to localStorage - CRITICAL FOR ADMIN PANEL
         const orders = JSON.parse(localStorage.getItem('elvianaOrders') || '[]');
-        orders.push({
-            id: Date.now(),
-            orderId: `ELV${Date.now().toString().slice(-6)}`,
+        const newOrder = {
+            id: orderId,
+            orderId: shortOrderId,
             date: new Date().toISOString(),
-            customer: { name, address, phone },
-            items: [...cart],
+            customer: { 
+                name: name, 
+                address: address, 
+                phone: phone 
+            },
+            items: [...cart], // Copy cart items
             total: total,
             status: 'pending'
-        });
+        };
+        
+        orders.push(newOrder);
         localStorage.setItem('elvianaOrders', JSON.stringify(orders));
         
         // Clear the cart after order
@@ -413,14 +423,14 @@
         }, 1000);
         
         // Show confirmation
-        alert('✅ Order placed successfully!\n\nYour order has been sent to both our WhatsApp numbers.\n\nPlease check WhatsApp for order confirmation.');
+        alert(`✅ Order #${shortOrderId} placed successfully!\n\nYour order has been sent to both our WhatsApp numbers.\n\nPlease check WhatsApp for order confirmation.`);
         
         // Reload cart items to show empty state
         setTimeout(() => {
             loadCartItems();
         }, 500);
     });
-
+    
     // WhatsApp checkout button
     document.getElementById('whatsappCheckout')?.addEventListener('click', function() {
         const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
@@ -449,5 +459,6 @@
 </script>
 </body>
 </html>
+
 
 
