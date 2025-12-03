@@ -1,17 +1,14 @@
 // ELVIANA LUXE E-COMMERCE SYSTEM - COMPLETE FIXED VERSION
 (function() {
-    // === FIX 1: ALERT BOX ON FIRST VISIT ===
-    // Show welcome alert on first visit
+    // === FIX 1: ALERT BOX SHOWS ON EVERY PAGE LOAD ===
+    // Show welcome alert on EVERY page load
     window.addEventListener('load', function() {
-        if (!localStorage.getItem('elvianaWelcomeShown')) {
-            setTimeout(() => {
-                const overlay = document.getElementById('overlay');
-                if (overlay) {
-                    overlay.style.display = 'flex';
-                    localStorage.setItem('elvianaWelcomeShown', 'true');
-                }
-            }, 1000);
-        }
+        setTimeout(() => {
+            const overlay = document.getElementById('overlay');
+            if (overlay) {
+                overlay.style.display = 'flex';
+            }
+        }, 500);
     });
 
     // Close alert function
@@ -276,11 +273,10 @@
     
     // WhatsApp button - SENDS ORDER INQUIRY
     document.getElementById('whatsappPrimary')?.addEventListener('click', function(e) {
+        e.preventDefault();
         const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
         
         if (cart.length > 0) {
-            e.preventDefault();
-            
             // Create order summary for WhatsApp
             let message = `🛍️ *NEW ORDER INQUIRY - ELVIANA LUXE*\n\n`;
             message += `_Customer is interested in these items:_\n\n`;
@@ -295,17 +291,21 @@
             
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             message += `💰 *TOTAL: $${total.toFixed(2)}*\n\n`;
-            message += `_Please contact customer for shipping and payment details._`;
+            message += `_Please ask customer for shipping address and phone number._`;
+            
+            // Clean phone numbers (remove any spaces or special characters)
+            const phone1 = "2347063327418";
+            const phone2 = "2348130821583";
             
             const encodedMessage = encodeURIComponent(message);
             
-            // Send to FIRST WhatsApp number
-            const whatsapp1 = window.open(`https://wa.me/2347063327418?text=${encodedMessage}`, '_blank');
+            // Open FIRST WhatsApp in new tab
+            window.open(`https://wa.me/${phone1}?text=${encodedMessage}`, '_blank', 'noopener,noreferrer');
             
-            // After 1 second, send to SECOND WhatsApp number
+            // Open SECOND WhatsApp in new tab after delay
             setTimeout(() => {
-                window.open(`https://wa.me/2348130821583?text=${encodedMessage}`, '_blank');
-            }, 1000);
+                window.open(`https://wa.me/${phone2}?text=${encodedMessage}`, '_blank', 'noopener,noreferrer');
+            }, 500);
             
         } else {
             // If cart is empty, just open WhatsApp for general inquiry
@@ -366,21 +366,4 @@
     `;
     document.head.appendChild(style);
     
-})();
-
-// === ORIGINAL CODE (for backward compatibility) ===
-(function(){
-    // WhatsApp primary button opens chat with the first number
-    var btn = document.getElementById('whatsappPrimary');
-    btn && btn.addEventListener('click', function(){
-        // opens the first WhatsApp contact in a new tab
-        window.open('https://wa.me/2347063327418', '_blank');
-    });
-
-    // Lightweight image placeholder fallback: if an image fails to load, show a subtle placeholder
-    document.querySelectorAll('.card img').forEach(function(img){
-        img.addEventListener('error', function(){
-            img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="100%" height="100%" fill="%230a0a0a"/><text x="50%" y="50%" fill="%239a9a9a" font-family="Verdana" font-size="20" dominant-baseline="middle" text-anchor="middle">Image not available</text></svg>';
-        });
-    });
 })();
