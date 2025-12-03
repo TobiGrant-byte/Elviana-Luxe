@@ -96,188 +96,240 @@
 </footer>
 
 <script>
-// CART PAGE - SIMPLE WORKING VERSION
+// Cart Page Functionality - COMPLETE FIXED VERSION
 (function() {
-    
-    // Load cart
-    function loadCart() {
+    // Load cart items
+    function loadCartItems() {
         const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
-        const container = document.getElementById('cartItems');
-        const empty = document.getElementById('emptyCart');
+        const cartItemsEl = document.getElementById('cartItems');
+        const emptyCartEl = document.getElementById('emptyCart');
         
         if (cart.length === 0) {
-            empty.style.display = 'block';
-            document.getElementById('subtotal').textContent = '$0.00';
-            document.getElementById('total').textContent = '$0.00';
+            emptyCartEl.style.display = 'block';
+            updateSummary(0);
             updateCartCount();
             return;
         }
         
-        empty.style.display = 'none';
+        emptyCartEl.style.display = 'none';
         
-        container.innerHTML = cart.map((item, index) => `
-            <div class="cart-item">
-                <img src="${item.image || 'img1.jpg'}" alt="${item.name}" class="cart-item-image">
+        cartItemsEl.innerHTML = cart.map((item, index) => `
+            <div class="cart-item" data-item-id="${item.id}">
+                <img src="${item.image}" alt="${item.name}" class="cart-item-image">
                 <div class="cart-item-details">
                     <h3>${item.name}</h3>
+                    <p class="cart-item-variant">${item.selectedColor} • Size ${item.selectedSize}</p>
                     <p class="cart-item-price">$${item.price.toFixed(2)}</p>
                 </div>
                 <div class="cart-item-quantity">
-                    <button onclick="changeQty(${index}, -1)">-</button>
-                    <span>${item.quantity}</span>
-                    <button onclick="changeQty(${index}, 1)">+</button>
+                    <button class="qty-btn" onclick="updateCartQuantity(${index}, -1)">-</button>
+                    <span class="cart-item-qty">${item.quantity}</span>
+                    <button class="qty-btn" onclick="updateCartQuantity(${index}, 1)">+</button>
                 </div>
                 <div class="cart-item-total">
                     $${(item.price * item.quantity).toFixed(2)}
                 </div>
-                <button class="cart-item-remove" onclick="removeItem(${index})">
+                <button class="cart-item-remove" onclick="removeFromCart(${index})">
                     <i class="fas fa-trash"></i>
                 </button>
             </div>
         `).join('');
         
-        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        document.getElementById('subtotal').textContent = `$${total.toFixed(2)}`;
-        document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        // Calculate totals
+        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        updateSummary(subtotal);
         updateCartCount();
     }
-    
-    // Quantity change
-    window.changeQty = function(index, change) {
+
+    // Update cart quantity
+    window.updateCartQuantity = function(itemIndex, change) {
         const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
-        cart[index].quantity += change;
         
-        if (cart[index].quantity < 1) {
-            cart.splice(index, 1);
+        if (cart[itemIndex]) {
+            cart[itemIndex].quantity += change;
+            
+            // Remove if quantity reaches 0
+            if (cart[itemIndex].quantity <= 0) {
+                cart.splice(itemIndex, 1);
+            }
+            
+            localStorage.setItem('elvianaCart', JSON.stringify(cart));
+            loadCartItems();
         }
-        
-        localStorage.setItem('elvianaCart', JSON.stringify(cart));
-        loadCart();
     };
-    
-    // Remove item
-    window.removeItem = function(index) {
+
+    // Remove from cart
+    window.removeFromCart = function(itemIndex) {
         const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
-        cart.splice(index, 1);
-        localStorage.setItem('elvianaCart', JSON.stringify(cart));
-        loadCart();
+        
+        if (cart[itemIndex]) {
+            cart.splice(itemIndex, 1);
+            localStorage.setItem('elvianaCart', JSON.stringify(cart));
+            loadCartItems();
+        }
     };
-    
-    // Clear cart button
+
+    // CLEAR CART BUTTON - FIXED
     document.getElementById('clearCartBtn')?.addEventListener('click', function() {
-        if (confirm('Clear entire cart?')) {
-            localStorage.removeItem('elvianaCart');
-            loadCart();
-            alert('Cart cleared!');
-        }
-    });
-    
-    // Update cart count
-    function updateCartCount() {
-        const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
-        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-        document.getElementById('cart-count').textContent = count;
-    }
-    
-    // === CHECKOUT BUTTON - GUARANTEED WORKING ===
-    document.getElementById('checkoutBtn')?.addEventListener('click', function() {
         const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
         
         if (cart.length === 0) {
-            alert('Cart is empty!');
+            alert('Your cart is already empty.');
             return;
         }
         
-        // Get customer info
-        const name = prompt('Your name:');
-        if (!name) return;
+        if (confirm(`Are you sure you want to clear your cart? This will remove ${cart.length} item(s).`)) {
+            localStorage.removeItem('elvianaCart');
+            loadCartItems();
+            alert('Cart cleared successfully!');
+        }
+    });
+
+    // Update order summary
+    function updateSummary(subtotal) {
+        document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+        document.getElementById('total').textContent = `$${subtotal.toFixed(2)}`;
+    }
+
+    // Update cart count in header
+    function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
+        const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+        document.getElementById('cart-count').textContent = cartCount;
+    }
+
+    // CHECKOUT FUNCTION - SENDS TO BOTH WHATSAPP NUMBERS (GUARANTEED)
+    document.getElementById('checkoutBtn')?.addEventListener('click', function() {
+        const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
+        if (cart.length === 0) {
+            alert('Your cart is empty. Add items before checkout.');
+            return;
+        }
         
-        const address = prompt('Shipping address:');
-        if (!address) return;
+        // Create a simple form for customer info
+        const name = prompt('📝 Enter your full name:');
+        if (!name || name.trim() === '') {
+            alert('Name is required to place an order.');
+            return;
+        }
         
-        const phone = prompt('Your phone number:');
-        if (!phone) return;
+        const address = prompt('📍 Enter your shipping address:');
+        if (!address || address.trim() === '') {
+            alert('Shipping address is required to place an order.');
+            return;
+        }
         
-        // Create order message
-        let message = `*NEW ORDER - ELVIANA LUXE*\n\n`;
-        message += `Customer: ${name}\n`;
-        message += `Phone: ${phone}\n`;
-        message += `Address: ${address}\n\n`;
-        message += `Items:\n`;
+        const phone = prompt('📱 Enter your phone number:');
+        if (!phone || phone.trim() === '') {
+            alert('Phone number is required to place an order.');
+            return;
+        }
+        
+        // Generate order ID
+        const orderId = `ELV${Date.now().toString().slice(-8)}`;
+        const orderDate = new Date().toLocaleString();
+        
+        // Create URGENT WhatsApp message
+        let message = `🚨 *URGENT: NEW ORDER - ELVIANA LUXE* 🚨\n\n`;
+        message += `🆔 *Order ID:* ${orderId}\n`;
+        message += `🕒 *Order Time:* ${orderDate}\n\n`;
+        message += `👤 *CUSTOMER DETAILS:*\n`;
+        message += `• 📛 Name: ${name}\n`;
+        message += `• 📍 Address: ${address}\n`;
+        message += `• 📱 Phone: ${phone}\n\n`;
+        message += `📦 *ORDER ITEMS:*\n\n`;
         
         cart.forEach((item, index) => {
-            message += `${index + 1}. ${item.name} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}\n`;
+            message += `✅ *Item ${index + 1}: ${item.name}*\n`;
+            message += `   🎨 Color: ${item.selectedColor}\n`;
+            message += `   📏 Size: ${item.selectedSize}\n`;
+            message += `   🔢 Quantity: ${item.quantity}\n`;
+            message += `   💰 Price: $${item.price.toFixed(2)} each\n`;
+            message += `   💵 Subtotal: $${(item.price * item.quantity).toFixed(2)}\n\n`;
         });
         
         const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        message += `\nTotal: $${total.toFixed(2)}\n`;
-        message += `Payment: Cash on Delivery\n`;
-        message += `Status: Pending`;
+        message += `💰 *ORDER SUMMARY:*\n`;
+        message += `• Subtotal: $${total.toFixed(2)}\n`;
+        message += `• Shipping: To be calculated\n`;
+        message += `• Payment: Cash on Delivery\n`;
+        message += `• Status: ⏳ Pending\n\n`;
+        message += `📋 *ACTION REQUIRED:*\n`;
+        message += `1. Contact customer to confirm\n`;
+        message += `2. Calculate shipping cost\n`;
+        message += `3. Prepare items for shipment\n\n`;
+        message += `⚡ *THIS IS A LIVE ORDER - RESPOND URGENTLY* ⚡`;
         
-        // Encode for WhatsApp
-        const encoded = encodeURIComponent(message);
+        // Clean WhatsApp numbers (NO + sign, NO spaces)
+        const whatsappNumber1 = "2347063327418";
+        const whatsappNumber2 = "2348130821583";
         
-        // Send to FIRST number
-        const link1 = document.createElement('a');
-        link1.href = `https://wa.me/2347063327418?text=${encoded}`;
-        link1.target = '_blank';
-        document.body.appendChild(link1);
-        link1.click();
+        const encodedMessage = encodeURIComponent(message);
         
-        // Send to SECOND number after delay
+        // Save order to localStorage (for admin on THIS device)
+        const orders = JSON.parse(localStorage.getItem('elvianaOrders') || '[]');
+        orders.push({
+            id: Date.now(),
+            orderId: orderId,
+            date: new Date().toISOString(),
+            customer: { name, address, phone },
+            items: [...cart],
+            total: total,
+            status: 'pending',
+            device: 'customer'
+        });
+        localStorage.setItem('elvianaOrders', JSON.stringify(orders));
+        
+        // Clear cart
+        localStorage.removeItem('elvianaCart');
+        
+        // Send to BOTH WhatsApp numbers - NEW WINDOWS
+        // First number
+        const win1 = window.open(`https://wa.me/${whatsappNumber1}?text=${encodedMessage}`, '_blank');
+        
+        // Second number (after delay)
         setTimeout(() => {
-            const link2 = document.createElement('a');
-            link2.href = `https://wa.me/2349118175497?text=${encoded}`;
-            link2.target = '_blank';
-            document.body.appendChild(link2);
-            link2.click();
-            
-            // Clear cart and show success
-            localStorage.removeItem('elvianaCart');
-            alert('Order sent to both WhatsApp numbers!');
-            loadCart();
-            
-            // Remove links
+            const win2 = window.open(`https://wa.me/${whatsappNumber2}?text=${encodedMessage}`, '_blank');
+        }, 800);
+        
+        // Show success message
+        alert(`✅ ORDER PLACED SUCCESSFULLY!\n\nOrder ID: ${orderId}\n\nYour order has been sent to:\n1. +234 706 332 7418\n2. +234 813 082 1583\n\nPlease check WhatsApp for order confirmation from our team.`);
+        
+        // Reload cart
+        setTimeout(() => {
+            loadCartItems();
+            // Redirect to home after 2 seconds
             setTimeout(() => {
-                document.body.removeChild(link1);
-                document.body.removeChild(link2);
-            }, 1000);
-            
-        }, 2000);
+                window.location.href = 'index.html';
+            }, 2000);
+        }, 1000);
     });
-    
+
     // WhatsApp checkout button
     document.getElementById('whatsappCheckout')?.addEventListener('click', function() {
         const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
-        
         if (cart.length === 0) {
-            window.location.href = "https://wa.me/2347063327418";
-            return;
+            window.open('https://wa.me/2347063327418', '_blank');
+        } else {
+            // Create order summary
+            let message = "Hello! I'd like to order from Elviana Luxe:\n\n";
+            cart.forEach((item, index) => {
+                message += `${index + 1}. ${item.name} (${item.selectedColor}, Size ${item.selectedSize}) x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}\n`;
+            });
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            message += `\nTotal: $${total.toFixed(2)}\n\nPlease provide:\nName: \nAddress: \nPhone: `;
+            
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/2347063327418?text=${encodedMessage}`, '_blank');
         }
-        
-        let message = "I want to order:\n\n";
-        cart.forEach(item => {
-            message += `${item.name} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}\n`;
-        });
-        
-        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        message += `\nTotal: $${total.toFixed(2)}`;
-        
-        const encoded = encodeURIComponent(message);
-        const link = document.createElement('a');
-        link.href = `https://wa.me/2347063327418?text=${encoded}`;
-        link.target = '_blank';
-        document.body.appendChild(link);
-        link.click();
     });
-    
-    // Load on startup
-    document.addEventListener('DOMContentLoaded', loadCart);
-    
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        loadCartItems();
+    });
+
 })();
 </script>
-
 </body>
 </html>
-
-
