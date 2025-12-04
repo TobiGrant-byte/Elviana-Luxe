@@ -38,7 +38,7 @@
 <body>
 <header class="site-header">
 <div class="brand">
-<img src="/assets/Elviana Luxe logo.jpg" alt="Elviana Luxe logo" id="logo" />
+<img src="Elviana Luxe logo.jpg" alt="Elviana Luxe logo" id="logo" />
 <h1>ELVIANA LUXE</h1>
 </div>
 <nav class="top-links">
@@ -317,7 +317,7 @@
                 message += `${index + 1}. ${item.name} (${item.selectedColor}, Size ${item.selectedSize}) x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}\n`;
             });
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            message += `\nTotal: $${total.toFixed(2)}\n\nPlease provide\nName: \nAddress: \nPhone: `;
+            message += `\nTotal: $${total.toFixed(2)}\n\nName: \nAddress: \nPhone: `;
             
             const encodedMessage = encodeURIComponent(message);
             window.open(`https://wa.me/2347063327418?text=${encodedMessage}`, '_blank');
@@ -333,4 +333,5 @@
 </script>
 </body>
 </html>
+
 
