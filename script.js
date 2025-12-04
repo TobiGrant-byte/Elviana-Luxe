@@ -41,36 +41,36 @@
     
     // Product database
     const products = [
-        { id: 1, name: "Gold Elegance Heels", price: 349.99, image: "img 1.jpg", colors: ["Gold", "Rose Gold"], sizes: ["36", "37", "38"], category: "heels" },
-        { id: 2, name: "Black Leather Boots", price: 289.99, image: "img 2.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
-        { id: 3, name: "Crystal Embellished Pumps", price: 425.50, image: "img 3.jpg", colors: ["Clear", "Gold"], sizes: ["36", "37", "38"], category: "heels" },
-        { id: 4, name: "Designer Sneakers", price: 275.00, image: "img 4.jpg", colors: ["White", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
-        { id: 5, name: "Evening Heels", price: 399.99, image: "img 5.jpg", colors: ["Black", "Silver"], sizes: ["37", "38"], category: "heels" },
-        { id: 6, name: "Luxury Sandals", price: 325.00, image: "img 6.jpg", colors: ["Gold", "Silver"], sizes: ["36", "37", "38"], category: "sandals" },
-        { id: 7, name: "Casual Loafers", price: 245.00, image: "img7.jpg", colors: ["Brown", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
-        { id: 8, name: "Designer Flats", price: 210.00, image: "img8.jpg", colors: ["Black", "Navy"], sizes: ["36", "37"], category: "sandals" },
-        { id: 9, name: "Ankle Boots", price: 265.00, image: "img9.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
-        { id: 10, name: "Platform Heels", price: 315.00, image: "img10.jpg", colors: ["Black", "Gold"], sizes: ["36", "37"], category: "heels" },
-        { id: 11, name: "Evening Pumps", price: 375.00, image: "img11.jpg", colors: ["Black", "Red"], sizes: ["37", "38"], category: "heels" },
-        { id: 12, name: "Leather Sandals", price: 195.00, image: "img12.jpg", colors: ["Brown", "Black"], sizes: ["36", "37", "38"], category: "sandals" },
-        { id: 13, name: "Designer Mules", price: 225.00, image: "img13.jpg", colors: ["White", "Black"], sizes: ["37", "38"], category: "sandals" },
-        { id: 14, name: "Casual Sneakers", price: 250.00, image: "img14.jpg", colors: ["White", "Gray"], sizes: ["38", "39", "40"], category: "sneakers" },
-        { id: 15, name: "Boots with Fur", price: 335.00, image: "img15.jpg", colors: ["Brown", "Black"], sizes: ["37", "38", "39"], category: "boots" },
-        { id: 16, name: "Designer Wedges", price: 290.00, image: "img16.jpg", colors: ["Beige", "Black"], sizes: ["36", "37"], category: "heels" },
-        { id: 17, name: "Oxford Shoes", price: 275.00, image: "img17.jpg", colors: ["Brown", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
-        { id: 18, name: "High Heels", price: 365.00, image: "img18.jpg", colors: ["Red", "Black"], sizes: ["36", "37"], category: "heels" },
-        { id: 19, name: "Espadrilles", price: 195.00, image: "img19.jpg", colors: ["White", "Blue"], sizes: ["37", "38"], category: "sandals" },
-        { id: 20, name: "Platform Boots", price: 345.00, image: "img20.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
-        { id: 21, name: "Slingback Heels", price: 310.00, image: "img21.jpg", colors: ["Nude", "Black"], sizes: ["36", "37"], category: "heels" },
-        { id: 22, name: "Premium Loafers", price: 255.00, image: "img22.jpg", colors: ["Brown", "Burgundy"], sizes: ["38", "39", "40"], category: "sneakers" },
-        { id: 23, name: "Ankle Strap Heels", price: 295.00, image: "img23.jpg", colors: ["Black", "Silver"], sizes: ["36", "37"], category: "heels" },
-        { id: 24, name: "Mary Janes", price: 265.00, image: "img24.jpg", colors: ["Black", "Brown"], sizes: ["37", "38"], category: "heels" },
-        { id: 25, name: "Kitten Heels", price: 245.00, image: "img25.jpg", colors: ["Nude", "Black"], sizes: ["36", "37"], category: "heels" },
-        { id: 26, name: "Brogues", price: 275.00, image: "img26.jpg", colors: ["Brown", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
-        { id: 27, name: "Ballet Flats", price: 185.00, image: "img27.jpg", colors: ["Black", "Red"], sizes: ["36", "37"], category: "sandals" },
-        { id: 28, name: "Gladiator Sandals", price: 225.00, image: "img28.jpg", colors: ["Brown", "Black"], sizes: ["37", "38"], category: "sandals" },
-        { id: 29, name: "Moccasins", price: 215.00, image: "img29.jpg", colors: ["Brown", "Tan"], sizes: ["38", "39"], category: "sneakers" },
-        { id: 30, name: "Designer Clogs", price: 235.00, image: "img30.jpg", colors: ["Black", "Brown"], sizes: ["37", "38"], category: "sandals" }
+        { id: 1, name: "", price: 40k, image: "img 1.jpg", colors: ["Gold", "Rose Gold"], sizes: ["36", "37", "38"], category: "heels" },
+        { id: 2, name: "", price: 40k, image: "img 2.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
+        { id: 3, name: "", price: 20k, image: "img 3.jpg", colors: ["Clear", "Gold"], sizes: ["36", "37", "38"], category: "heels" },
+        { id: 4, name: "", price: 30k, image: "img 4.jpg", colors: ["White", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 5, name: "", price: 20k, image: "img 5.jpg", colors: ["Black", "Silver"], sizes: ["37", "38"], category: "heels" },
+        { id: 6, name: "", price: 17k, image: "img 6.jpg", colors: ["Gold", "Silver"], sizes: ["36", "37", "38"], category: "sandals" },
+        { id: 7, name: "", price: 24k, image: "img7.jpg", colors: ["Brown", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 8, name: "", price: 24k, image: "img8.jpg", colors: ["Black", "Navy"], sizes: ["36", "37"], category: "sandals" },
+        { id: 9, name: "", price: 17k, image: "img9.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
+        { id: 10, name: "", price: 24k, image: "img10.jpg", colors: ["Black", "Gold"], sizes: ["36", "37"], category: "heels" },
+        { id: 11, name: "", price: 24k, image: "img11.jpg", colors: ["Black", "Red"], sizes: ["37", "38"], category: "heels" },
+        { id: 12, name: "", price: 17k, image: "img12.jpg", colors: ["Brown", "Black"], sizes: ["36", "37", "38"], category: "sandals" },
+        { id: 13, name: "", price: 24k, image: "img13.jpg", colors: ["White", "Black"], sizes: ["37", "38"], category: "sandals" },
+        { id: 14, name: "", price: 30k, image: "img14.jpg", colors: ["White", "Gray"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 15, name: "", price: 17k, image: "img15.jpg", colors: ["Brown", "Black"], sizes: ["37", "38", "39"], category: "boots" },
+        { id: 16, name: "", price: 17k, image: "img16.jpg", colors: ["Beige", "Black"], sizes: ["36", "37"], category: "heels" },
+        { id: 17, name: "", price: 17k, image: "img17.jpg", colors: ["Brown", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 18, name: "", price: 17k, image: "img18.jpg", colors: ["Red", "Black"], sizes: ["36", "37"], category: "heels" },
+        { id: 19, name: "", price: 24k, image: "img19.jpg", colors: ["White", "Blue"], sizes: ["37", "38"], category: "sandals" },
+        { id: 20, name: "", price: 20k, image: "img20.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
+        { id: 21, name: "", price: 21k, image: "img21.jpg", colors: ["Nude", "Black"], sizes: ["36", "37"], category: "heels" },
+        { id: 22, name: "", price: 21k, image: "img22.jpg", colors: ["Brown", "Burgundy"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 23, name: "", price: 24k, image: "img23.jpg", colors: ["Black", "Silver"], sizes: ["36", "37"], category: "heels" },
+        { id: 24, name: "", price: 17k, image: "img24.jpg", colors: ["Black", "Brown"], sizes: ["37", "38"], category: "heels" },
+        { id: 25, name: "", price: 17k, image: "img25.jpg", colors: ["Nude", "Black"], sizes: ["36", "37"], category: "heels" },
+        { id: 26, name: "", price: 20k, image: "img26.jpg", colors: ["Brown", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 27, name: "", price: 17k, image: "img27.jpg", colors: ["Black", "Red"], sizes: ["36", "37"], category: "sandals" },
+        { id: 28, name: "", price: 21k, image: "img28.jpg", colors: ["Brown", "Black"], sizes: ["37", "38"], category: "sandals" },
+        { id: 29, name: "", price: 21k, image: "img29.jpg", colors: ["Brown", "Tan"], sizes: ["38", "39"], category: "sneakers" },
+        { id: 30, name: "", price: 21k, image: "img30.jpg", colors: ["Black", "Brown"], sizes: ["37", "38"], category: "sandals" }
     ];
     
     // Add to cart function
@@ -367,3 +367,4 @@
     document.head.appendChild(style);
     
 })();
+
