@@ -198,113 +198,154 @@
         document.getElementById('cart-count').textContent = cartCount;
     }
 
-    // CHECKOUT FUNCTION - SENDS TO BOTH WHATSAPP NUMBERS (GUARANTEED)
-    document.getElementById('checkoutBtn')?.addEventListener('click', function() {
-        const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
-        if (cart.length === 0) {
-            alert('Your cart is empty. Add items before checkout.');
-            return;
-        }
-        
-        // Create a simple form for customer info
-        const name = prompt('📝 Enter your full name:');
-        if (!name || name.trim() === '') {
-            alert('Name is required to place an order.');
-            return;
-        }
-        
-        const address = prompt('📍 Enter your shipping address:');
-        if (!address || address.trim() === '') {
-            alert('Shipping address is required to place an order.');
-            return;
-        }
-        
-        const phone = prompt('📱 Enter your phone number:');
-        if (!phone || phone.trim() === '') {
-            alert('Phone number is required to place an order.');
-            return;
-        }
-        
-        // Generate order ID
-        const orderId = `ELV${Date.now().toString().slice(-8)}`;
-        const orderDate = new Date().toLocaleString();
-        
-        // Create URGENT WhatsApp message
-        let message = `🚨 *URGENT: NEW ORDER - ELVIANA LUXE* 🚨\n\n`;
-        message += `🆔 *Order ID:* ${orderId}\n`;
-        message += `🕒 *Order Time:* ${orderDate}\n\n`;
-        message += `👤 *CUSTOMER DETAILS:*\n`;
-        message += `• 📛 Name: ${name}\n`;
-        message += `• 📍 Address: ${address}\n`;
-        message += `• 📱 Phone: ${phone}\n\n`;
-        message += `📦 *ORDER ITEMS:*\n\n`;
-        
-        cart.forEach((item, index) => {
-            message += `✅ *Item ${index + 1}: ${item.name}*\n`;
-            message += `   🎨 Color: ${item.selectedColor}\n`;
-            message += `   📏 Size: ${item.selectedSize}\n`;
-            message += `   🔢 Quantity: ${item.quantity}\n`;
-            message += `   💰 Price: $${item.price.toFixed(2)} each\n`;
-            message += `   💵 Subtotal: $${(item.price * item.quantity).toFixed(2)}\n\n`;
-        });
-        
-        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        message += `💰 *ORDER SUMMARY:*\n`;
-        message += `• Subtotal: $${total.toFixed(2)}\n`;
-        message += `• Shipping: To be calculated\n`;
-        message += `• Payment: Cash on Delivery\n`;
-        message += `• Status: ⏳ Pending\n\n`;
-        message += `📋 *ACTION REQUIRED:*\n`;
-        message += `1. Contact customer to confirm\n`;
-        message += `2. Calculate shipping cost\n`;
-        message += `3. Prepare items for shipment\n\n`;
-        message += `⚡ *THIS IS A LIVE ORDER - RESPOND URGENTLY* ⚡`;
-        
-        // Clean WhatsApp numbers (NO + sign, NO spaces)
-        const whatsappNumber1 = "2347063327418";
-        const whatsappNumber2 = "2348130821583";
-        
-        const encodedMessage = encodeURIComponent(message);
-        
-        // Save order to localStorage (for admin on THIS device)
-        const orders = JSON.parse(localStorage.getItem('elvianaOrders') || '[]');
-        orders.push({
-            id: Date.now(),
-            orderId: orderId,
-            date: new Date().toISOString(),
-            customer: { name, address, phone },
-            items: [...cart],
-            total: total,
-            status: 'pending',
-            device: 'customer'
-        });
-        localStorage.setItem('elvianaOrders', JSON.stringify(orders));
-        
-        // Clear cart
-        localStorage.removeItem('elvianaCart');
-        
-        // Send to BOTH WhatsApp numbers - NEW WINDOWS
-        // First number
-        const win1 = window.open(`https://wa.me/${whatsappNumber1}?text=${encodedMessage}`, '_blank');
-        
-        // Second number (after delay)
-        setTimeout(() => {
-            const win2 = window.open(`https://wa.me/${whatsappNumber2}?text=${encodedMessage}`, '_blank');
-        }, 800);
-        
-        // Show success message
-        alert(`✅ ORDER PLACED SUCCESSFULLY!\n\nOrder ID: ${orderId}\n\nYour order has been sent to:\n1. +234 706 332 7418\n2. +234 813 082 1583\n\nPlease check WhatsApp for order confirmation from our team.`);
-        
-        // Reload cart
-        setTimeout(() => {
-            loadCartItems();
-            // Redirect to home after 2 seconds
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 2000);
-        }, 1000);
-    });
 
+    // UPDATED CHECKOUT FUNCTION - SAVES TO SERVER
+document.getElementById('checkoutBtn')?.addEventListener('click', async function() {
+    const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
+    if (cart.length === 0) {
+        alert('Your cart is empty. Add items before checkout.');
+        return;
+    }
+    
+    // Get customer info
+    const name = prompt('Enter your full name:');
+    if (!name || name.trim() === '') {
+        alert('Name is required to place an order.');
+        return;
+    }
+    
+    const address = prompt('Enter your shipping address:');
+    if (!address || address.trim() === '') {
+        alert('Shipping address is required to place an order.');
+        return;
+    }
+    
+    const phone = prompt('Enter your phone number:');
+    if (!phone || phone.trim() === '') {
+        alert('Phone number is required to place an order.');
+        return;
+    }
+    
+    const email = prompt('Enter your email (optional):') || '';
+    
+    // Calculate total
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    
+    // Prepare order data for server
+    const orderData = {
+        customer: {
+            name: name.trim(),
+            phone: phone.trim(),
+            address: address.trim(),
+            email: email.trim()
+        },
+        items: cart.map(item => ({
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            color: item.selectedColor || 'Default',
+            size: item.selectedSize || 'One Size',
+            image: item.image || ''
+        })),
+        total: total
+    };
+    
+    try {
+        // Show loading
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving Order...';
+        this.disabled = true;
+        
+        // Save to SERVER
+        const response = await fetch('https://YOUR-DOMAIN.COM/save_order.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(orderData)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            const orderId = result.order_id;
+            
+            // Create WhatsApp message
+            let whatsappMsg = `🛍️ *NEW ORDER - ELVIANA LUXE*\n\n`;
+            whatsappMsg += `📋 Order ID: ${orderId}\n`;
+            whatsappMsg += `📅 Date: ${new Date().toLocaleString()}\n\n`;
+            whatsappMsg += `👤 *Customer Information:*\n`;
+            whatsappMsg += `• Name: ${name}\n`;
+            whatsappMsg += `• Phone: ${phone}\n`;
+            whatsappMsg += `• Address: ${address}\n`;
+            if (email) whatsappMsg += `• Email: ${email}\n`;
+            
+            whatsappMsg += `\n📦 *Order Items:*\n`;
+            cart.forEach((item, index) => {
+                whatsappMsg += `\n${index + 1}. ${item.name}\n`;
+                whatsappMsg += `   Color: ${item.selectedColor || 'Default'}\n`;
+                whatsappMsg += `   Size: ${item.selectedSize || 'One Size'}\n`;
+                whatsappMsg += `   Quantity: ${item.quantity}\n`;
+                whatsappMsg += `   Price: $${(item.price * item.quantity).toFixed(2)}\n`;
+            });
+            
+            whatsappMsg += `\n💰 *Total Amount: $${total.toFixed(2)}*\n`;
+            whatsappMsg += `🚚 Shipping: To be calculated\n`;
+            whatsappMsg += `💳 Payment: Cash on Delivery\n\n`;
+            whatsappMsg += `✅ *Order Status:* Saved to server\n`;
+            whatsappMsg += `🌐 *Order Source:* Website\n\n`;
+            whatsappMsg += `_This order has been saved to the database and is awaiting processing._`;
+            
+            // Encode for WhatsApp
+            const encodedMsg = encodeURIComponent(whatsappMsg);
+            
+            // Send to WhatsApp numbers
+            const link1 = document.createElement('a');
+            link1.href = `https://wa.me/2347063327418?text=${encodedMsg}`;
+            link1.target = '_blank';
+            link1.rel = 'noopener noreferrer';
+            document.body.appendChild(link1);
+            link1.click();
+            
+            // Second number after delay
+            setTimeout(() => {
+                const link2 = document.createElement('a');
+                link2.href = `https://wa.me/2348130821583?text=${encodedMsg}`;
+                link2.target = '_blank';
+                link2.rel = 'noopener noreferrer';
+                document.body.appendChild(link2);
+                link2.click();
+                
+                // Clean up
+                setTimeout(() => {
+                    document.body.removeChild(link1);
+                    document.body.removeChild(link2);
+                }, 1000);
+                
+                // Clear cart and show success
+                localStorage.removeItem('elvianaCart');
+                
+                alert(`✅ ORDER #${orderId} PLACED SUCCESSFULLY!\n\n• Order saved to server database\n• Sent to both WhatsApp numbers\n• You will be contacted shortly\n\nThank you for shopping with Elviana Luxe!`);
+                
+                // Reload page
+                loadCart();
+                
+            }, 1500);
+            
+        } else {
+            alert('Failed to save order to server. Error: ' + (result.error || 'Unknown error'));
+            this.innerHTML = '<i class="fas fa-shopping-bag"></i> Proceed to Checkout';
+            this.disabled = false;
+        }
+        
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Network error. Please check your connection and try again.');
+        this.innerHTML = '<i class="fas fa-shopping-bag"></i> Proceed to Checkout';
+        this.disabled = false;
+    }
+});
+
+    
     // WhatsApp checkout button
     document.getElementById('whatsappCheckout')?.addEventListener('click', function() {
         const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
@@ -333,6 +374,7 @@
 </script>
 </body>
 </html>
+
 
 
 
