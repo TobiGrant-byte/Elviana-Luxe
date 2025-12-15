@@ -41,12 +41,12 @@
     
     // Product database - FIXED: Removed 'k' from prices, made them numbers
     const products = [
-        { id: 1, name: "Designer Gold Heels", price: 40, image: "img1.jpg", colors: ["Gold", "Rose Gold"], sizes: ["36", "37", "38"], category: "heels" },
-        { id: 2, name: "Luxury Leather Boots", price: 40, image: "img2.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
-        { id: 3, name: "Crystal Clear Heels", price: 20, image: "img3.jpg", colors: ["Clear", "Gold"], sizes: ["36", "37", "38"], category: "heels" },
-        { id: 4, name: "Premium White Sneakers", price: 30, image: "img4.jpg", colors: ["White", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
-        { id: 5, name: "Elegant Black Heels", price: 20, image: "img5.jpg", colors: ["Black", "Silver"], sizes: ["37", "38"], category: "heels" },
-        { id: 6, name: "Golden Sandals", price: 17, image: "img6.jpg", colors: ["Gold", "Silver"], sizes: ["36", "37", "38"], category: "sandals" },
+        { id: 1, name: "Designer Gold Heels", price: 40, image: "img 1.jpg", colors: ["Gold", "Rose Gold"], sizes: ["36", "37", "38"], category: "heels" },
+        { id: 2, name: "Luxury Leather Boots", price: 40, image: "img 2.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
+        { id: 3, name: "Crystal Clear Heels", price: 20, image: "img 3.jpg", colors: ["Clear", "Gold"], sizes: ["36", "37", "38"], category: "heels" },
+        { id: 4, name: "Premium White Sneakers", price: 30, image: "img 4.jpg", colors: ["White", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 5, name: "Elegant Black Heels", price: 20, image: "img 5.jpg", colors: ["Black", "Silver"], sizes: ["37", "38"], category: "heels" },
+        { id: 6, name: "Golden Sandals", price: 17, image: "img 6.jpg", colors: ["Gold", "Silver"], sizes: ["36", "37", "38"], category: "sandals" },
         { id: 7, name: "Casual Brown Sneakers", price: 24, image: "img7.jpg", colors: ["Brown", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
         { id: 8, name: "Navy Blue Sandals", price: 24, image: "img8.jpg", colors: ["Black", "Navy"], sizes: ["36", "37"], category: "sandals" },
         { id: 9, name: "Classic Ankle Boots", price: 17, image: "img9.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
@@ -367,3 +367,4 @@
     document.head.appendChild(style);
     
 })();
+
