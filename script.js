@@ -51,7 +51,7 @@
         { id: 8, name: "Navy Blue Sandals", price: 24, image: "img8.jpg", colors: ["Black", "Navy"], sizes: ["36", "37"], category: "sandals" },
         { id: 9, name: "Classic Ankle Boots", price: 17, image: "img9.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
         { id: 10, name: "Luxury Gold Heels", price: 24, image: "img10.jpg", colors: ["Black", "Gold"], sizes: ["36", "37"], category: "heels" },
-        { id: 11, name: "Red Accent Heels", price: 24, image: "img11.jpg", colors: ["Black", "Red"], sizes: ["37", "38"], category: "heels" },
+        { id: 11, name: "Red Accent Heels", price: 21, image: "img11.jpg", colors: ["Black", "Red"], sizes: ["37", "38"], category: "heels" },
         { id: 12, name: "Brown Leather Sandals", price: 17, image: "img12.jpg", colors: ["Brown", "Black"], sizes: ["36", "37", "38"], category: "sandals" },
         { id: 13, name: "White Summer Sandals", price: 24, image: "img13.jpg", colors: ["White", "Black"], sizes: ["37", "38"], category: "sandals" },
         { id: 14, name: "Sport White Sneakers", price: 30, image: "img14.jpg", colors: ["White", "Gray"], sizes: ["38", "39", "40"], category: "sneakers" },
@@ -367,4 +367,5 @@
     document.head.appendChild(style);
     
 })();
+
 
