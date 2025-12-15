@@ -50,7 +50,7 @@
         modalTitle: "PRODUCT DETAILS"
     };
     
-    // Product database with custom descriptions
+   // Product database with custom descriptions
     const products = [
         { 
             id: 1, 
@@ -80,7 +80,7 @@
             colors: ["Clear", "Gold"], 
             sizes: ["36", "37", "38"], 
             category: "heels",
-            description: "Transparent heels with crystal accents. Modern design that complements any outfit."
+            description: ""
         },
         { 
             id: 4, 
@@ -371,6 +371,36 @@
             sizes: ["37", "38"], 
             category: "sandals",
             description: ""
+        },
+        { 
+            id: 33, 
+            name: "Product 33", 
+            price: 21, 
+            image: "img33.jpg", 
+            colors: ["Black", "Brown"], 
+            sizes: ["37", "38"], 
+            category: "sandals",
+            description: ""
+        },
+        { 
+            id: 34, 
+            name: "Product 34", 
+            price: 24, 
+            image: "img34.jpg", 
+            colors: ["Black", "Brown"], 
+            sizes: ["37", "38"], 
+            category: "sandals",
+            description: ""
+        },
+        { 
+            id: 35,
+            name: "Product 35", 
+            price: 21, 
+            image: "img35.jpg", 
+            colors: ["Black", "Brown"], 
+            sizes: ["37", "38"], 
+            category: "sandals",
+            description: ""
         }
 
     ];
@@ -456,19 +486,19 @@
             modal.style.cssText = 'display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center;';
             modal.innerHTML = `
                 <div class="modal-content" style="background: #1a1a1a; color: white; padding: 30px; border-radius: 15px; max-width: 900px; width: 95%; max-height: 90vh; overflow-y: auto; position: relative;">
-                    <span class="close-modal" style="position: absolute; top: 15px; right: 20px; color: white; font-size: 30px; cursor: pointer; z-index: 10000; background: rgba(0,0,0,0.5); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">&times;</span>
+                    <span class="close-modal" style="position: absolute; top: 15px; right: 20px; color: white; font-size: 30px; cursor: pointer; z-index: 10000; background: rgba(0,0,0,0.5); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.3s;">&times;</span>
                     <div id="quickViewContent"></div>
                 </div>
             `;
             document.body.appendChild(modal);
             
-            // Add close event
-            modal.querySelector('.close-modal').addEventListener('click', function() {
-                modal.style.display = 'none';
-            });
-            
-            // Close when clicking outside
+            // FIXED EVENT LISTENER: Use event delegation
             modal.addEventListener('click', function(e) {
+                // Close when clicking the close button
+                if (e.target.classList.contains('close-modal')) {
+                    modal.style.display = 'none';
+                }
+                // Close when clicking outside the modal content
                 if (e.target === modal) {
                     modal.style.display = 'none';
                 }
@@ -633,7 +663,7 @@
             checkoutModal.style.cssText = 'display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; justify-content: center; align-items: center;';
             checkoutModal.innerHTML = `
                 <div class="modal-content" style="background: #1a1a1a; color: white; padding: 30px; border-radius: 15px; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; position: relative;">
-                    <span class="close-checkout" style="position: absolute; top: 15px; right: 20px; color: white; font-size: 30px; cursor: pointer; background: rgba(0,0,0,0.5); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">&times;</span>
+                    <span class="close-checkout" style="position: absolute; top: 15px; right: 20px; color: white; font-size: 30px; cursor: pointer; background: rgba(0,0,0,0.5); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.3s;">&times;</span>
                     <h2 style="color: white; margin-top: 0; text-transform: uppercase; letter-spacing: 1px;">Complete Your Order</h2>
                     <form id="checkoutForm">
                         <div class="form-group">
@@ -667,7 +697,7 @@
             `;
             document.body.appendChild(checkoutModal);
             
-            // Add close event
+            // Add close event listener
             checkoutModal.querySelector('.close-checkout').addEventListener('click', function() {
                 checkoutModal.style.display = 'none';
             });
@@ -962,10 +992,17 @@
         #quickViewModal .modal-content {
             animation: fadeIn 0.3s ease;
         }
+        #quickViewModal .close-modal:hover {
+            background: rgba(255,255,255,0.2) !important;
+        }
         #quickViewModal .variant-option.active {
             background: #000 !important;
             border-color: #fff !important;
             color: #fff !important;
+        }
+        #quickViewModal .variant-option:hover {
+            background: #555 !important;
+            border-color: #888 !important;
         }
         #quickViewModal .qty-btn:hover,
         #checkoutModal .btn-checkout:hover {
@@ -981,6 +1018,9 @@
         /* Checkout Modal Styles */
         #checkoutModal .modal-content {
             animation: fadeIn 0.3s ease;
+        }
+        #checkoutModal .close-checkout:hover {
+            background: rgba(255,255,255,0.2) !important;
         }
         #checkoutModal input:focus,
         #checkoutModal textarea:focus {
