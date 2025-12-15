@@ -39,38 +39,38 @@
         });
     }
     
-    // Product database
+    // Product database - FIXED: Removed 'k' from prices, made them numbers
     const products = [
-        { id: 1, name: "", price: 40k, image: "img 1.jpg", colors: ["Gold", "Rose Gold"], sizes: ["36", "37", "38"], category: "heels" },
-        { id: 2, name: "", price: 40k, image: "img 2.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
-        { id: 3, name: "", price: 20k, image: "img 3.jpg", colors: ["Clear", "Gold"], sizes: ["36", "37", "38"], category: "heels" },
-        { id: 4, name: "", price: 30k, image: "img 4.jpg", colors: ["White", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
-        { id: 5, name: "", price: 20k, image: "img 5.jpg", colors: ["Black", "Silver"], sizes: ["37", "38"], category: "heels" },
-        { id: 6, name: "", price: 17k, image: "img 6.jpg", colors: ["Gold", "Silver"], sizes: ["36", "37", "38"], category: "sandals" },
-        { id: 7, name: "", price: 24k, image: "img7.jpg", colors: ["Brown", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
-        { id: 8, name: "", price: 24k, image: "img8.jpg", colors: ["Black", "Navy"], sizes: ["36", "37"], category: "sandals" },
-        { id: 9, name: "", price: 17k, image: "img9.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
-        { id: 10, name: "", price: 24k, image: "img10.jpg", colors: ["Black", "Gold"], sizes: ["36", "37"], category: "heels" },
-        { id: 11, name: "", price: 24k, image: "img11.jpg", colors: ["Black", "Red"], sizes: ["37", "38"], category: "heels" },
-        { id: 12, name: "", price: 17k, image: "img12.jpg", colors: ["Brown", "Black"], sizes: ["36", "37", "38"], category: "sandals" },
-        { id: 13, name: "", price: 24k, image: "img13.jpg", colors: ["White", "Black"], sizes: ["37", "38"], category: "sandals" },
-        { id: 14, name: "", price: 30k, image: "img14.jpg", colors: ["White", "Gray"], sizes: ["38", "39", "40"], category: "sneakers" },
-        { id: 15, name: "", price: 17k, image: "img15.jpg", colors: ["Brown", "Black"], sizes: ["37", "38", "39"], category: "boots" },
-        { id: 16, name: "", price: 17k, image: "img16.jpg", colors: ["Beige", "Black"], sizes: ["36", "37"], category: "heels" },
-        { id: 17, name: "", price: 17k, image: "img17.jpg", colors: ["Brown", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
-        { id: 18, name: "", price: 17k, image: "img18.jpg", colors: ["Red", "Black"], sizes: ["36", "37"], category: "heels" },
-        { id: 19, name: "", price: 24k, image: "img19.jpg", colors: ["White", "Blue"], sizes: ["37", "38"], category: "sandals" },
-        { id: 20, name: "", price: 20k, image: "img20.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
-        { id: 21, name: "", price: 21k, image: "img21.jpg", colors: ["Nude", "Black"], sizes: ["36", "37"], category: "heels" },
-        { id: 22, name: "", price: 21k, image: "img22.jpg", colors: ["Brown", "Burgundy"], sizes: ["38", "39", "40"], category: "sneakers" },
-        { id: 23, name: "", price: 24k, image: "img23.jpg", colors: ["Black", "Silver"], sizes: ["36", "37"], category: "heels" },
-        { id: 24, name: "", price: 17k, image: "img24.jpg", colors: ["Black", "Brown"], sizes: ["37", "38"], category: "heels" },
-        { id: 25, name: "", price: 17k, image: "img25.jpg", colors: ["Nude", "Black"], sizes: ["36", "37"], category: "heels" },
-        { id: 26, name: "", price: 20k, image: "img26.jpg", colors: ["Brown", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
-        { id: 27, name: "", price: 17k, image: "img27.jpg", colors: ["Black", "Red"], sizes: ["36", "37"], category: "sandals" },
-        { id: 28, name: "", price: 21k, image: "img28.jpg", colors: ["Brown", "Black"], sizes: ["37", "38"], category: "sandals" },
-        { id: 29, name: "", price: 21k, image: "img29.jpg", colors: ["Brown", "Tan"], sizes: ["38", "39"], category: "sneakers" },
-        { id: 30, name: "", price: 21k, image: "img30.jpg", colors: ["Black", "Brown"], sizes: ["37", "38"], category: "sandals" }
+        { id: 1, name: "Designer Gold Heels", price: 40, image: "img1.jpg", colors: ["Gold", "Rose Gold"], sizes: ["36", "37", "38"], category: "heels" },
+        { id: 2, name: "Luxury Leather Boots", price: 40, image: "img2.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
+        { id: 3, name: "Crystal Clear Heels", price: 20, image: "img3.jpg", colors: ["Clear", "Gold"], sizes: ["36", "37", "38"], category: "heels" },
+        { id: 4, name: "Premium White Sneakers", price: 30, image: "img4.jpg", colors: ["White", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 5, name: "Elegant Black Heels", price: 20, image: "img5.jpg", colors: ["Black", "Silver"], sizes: ["37", "38"], category: "heels" },
+        { id: 6, name: "Golden Sandals", price: 17, image: "img6.jpg", colors: ["Gold", "Silver"], sizes: ["36", "37", "38"], category: "sandals" },
+        { id: 7, name: "Casual Brown Sneakers", price: 24, image: "img7.jpg", colors: ["Brown", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 8, name: "Navy Blue Sandals", price: 24, image: "img8.jpg", colors: ["Black", "Navy"], sizes: ["36", "37"], category: "sandals" },
+        { id: 9, name: "Classic Ankle Boots", price: 17, image: "img9.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
+        { id: 10, name: "Luxury Gold Heels", price: 24, image: "img10.jpg", colors: ["Black", "Gold"], sizes: ["36", "37"], category: "heels" },
+        { id: 11, name: "Red Accent Heels", price: 24, image: "img11.jpg", colors: ["Black", "Red"], sizes: ["37", "38"], category: "heels" },
+        { id: 12, name: "Brown Leather Sandals", price: 17, image: "img12.jpg", colors: ["Brown", "Black"], sizes: ["36", "37", "38"], category: "sandals" },
+        { id: 13, name: "White Summer Sandals", price: 24, image: "img13.jpg", colors: ["White", "Black"], sizes: ["37", "38"], category: "sandals" },
+        { id: 14, name: "Sport White Sneakers", price: 30, image: "img14.jpg", colors: ["White", "Gray"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 15, name: "Leather Riding Boots", price: 17, image: "img15.jpg", colors: ["Brown", "Black"], sizes: ["37", "38", "39"], category: "boots" },
+        { id: 16, name: "Nude Evening Heels", price: 17, image: "img16.jpg", colors: ["Beige", "Black"], sizes: ["36", "37"], category: "heels" },
+        { id: 17, name: "Casual Brown Sneakers", price: 17, image: "img17.jpg", colors: ["Brown", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 18, name: "Red Party Heels", price: 17, image: "img18.jpg", colors: ["Red", "Black"], sizes: ["36", "37"], category: "heels" },
+        { id: 19, name: "Blue Beach Sandals", price: 24, image: "img19.jpg", colors: ["White", "Blue"], sizes: ["37", "38"], category: "sandals" },
+        { id: 20, name: "Classic Leather Boots", price: 20, image: "img20.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
+        { id: 21, name: "Nude Office Heels", price: 21, image: "img21.jpg", colors: ["Nude", "Black"], sizes: ["36", "37"], category: "heels" },
+        { id: 22, name: "Burgundy Casual Sneakers", price: 21, image: "img22.jpg", colors: ["Brown", "Burgundy"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 23, name: "Silver Night Heels", price: 24, image: "img23.jpg", colors: ["Black", "Silver"], sizes: ["36", "37"], category: "heels" },
+        { id: 24, name: "Classic Black Heels", price: 17, image: "img24.jpg", colors: ["Black", "Brown"], sizes: ["37", "38"], category: "heels" },
+        { id: 25, name: "Elegant Nude Heels", price: 17, image: "img25.jpg", colors: ["Nude", "Black"], sizes: ["36", "37"], category: "heels" },
+        { id: 26, name: "Urban Brown Sneakers", price: 20, image: "img26.jpg", colors: ["Brown", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 27, name: "Red Summer Sandals", price: 17, image: "img27.jpg", colors: ["Black", "Red"], sizes: ["36", "37"], category: "sandals" },
+        { id: 28, name: "Brown Casual Sandals", price: 21, image: "img28.jpg", colors: ["Brown", "Black"], sizes: ["37", "38"], category: "sandals" },
+        { id: 29, name: "Tan Casual Sneakers", price: 21, image: "img29.jpg", colors: ["Brown", "Tan"], sizes: ["38", "39"], category: "sneakers" },
+        { id: 30, name: "Black Leather Sandals", price: 21, image: "img30.jpg", colors: ["Black", "Brown"], sizes: ["37", "38"], category: "sandals" }
     ];
     
     // Add to cart function
@@ -153,7 +153,7 @@
                 </div>
                 <div class="product-details-side">
                     <h2>${product.name}</h2>
-                    <p class="product-price-large">$${product.price.toFixed(2)}</p>
+                    <p class="product-price-large">₦${product.price}k</p>
                     <p class="product-description">Premium luxury footwear with exquisite craftsmanship and attention to detail. Handcrafted using the finest materials.</p>
                     
                     <div class="variant-selector">
@@ -286,11 +286,11 @@
                 message += `🎨 Color: ${item.selectedColor}\n`;
                 message += `📏 Size: ${item.selectedSize}\n`;
                 message += `🔢 Quantity: ${item.quantity}\n`;
-                message += `💵 Price: $${(item.price * item.quantity).toFixed(2)}\n\n`;
+                message += `💵 Price: ₦${item.price}k each (₦${item.price * item.quantity}k total)\n\n`;
             });
             
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            message += `💰 *TOTAL: $${total.toFixed(2)}*\n\n`;
+            message += `💰 *TOTAL: ₦${total}k*\n\n`;
             message += `_Please ask customer for shipping address and phone number._`;
             
             // Clean phone numbers (remove any spaces or special characters)
@@ -367,5 +367,3 @@
     document.head.appendChild(style);
     
 })();
-
-
