@@ -1,3 +1,585 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Admin - Order Management - Elviana Luxe</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    /* Admin Page Styles */
+    .admin-container {
+        max-width: 1400px;
+        margin: 40px auto;
+        padding: 0 5%;
+    }
+    
+    .admin-header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #333;
+    }
+    
+    .admin-header h1 {
+        color: #fff;
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+    
+    .admin-header p {
+        color: #aaa;
+        font-size: 16px;
+    }
+    
+    /* Login Section */
+    .login-section {
+        max-width: 400px;
+        margin: 100px auto;
+        padding: 40px;
+        background: rgba(255,255,255,0.02);
+        border-radius: 16px;
+        border: 1px solid #333;
+        text-align: center;
+    }
+    
+    .login-section h2 {
+        color: #fff;
+        margin-bottom: 30px;
+    }
+    
+    .login-input {
+        width: 100%;
+        padding: 12px 15px;
+        margin-bottom: 20px;
+        background: #111;
+        border: 1px solid #333;
+        border-radius: 8px;
+        color: #fff;
+        font-size: 16px;
+    }
+    
+    .login-input:focus {
+        outline: none;
+        border-color: #fff;
+    }
+    
+    .login-btn {
+        width: 100%;
+        padding: 15px;
+        background: #fff;
+        color: #000;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .login-btn:hover {
+        background: #e0e0e0;
+        transform: translateY(-2px);
+    }
+    
+    /* Admin Dashboard */
+    .admin-dashboard {
+        display: none;
+    }
+    
+    .stats-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+    
+    .stat-card {
+        background: rgba(255,255,255,0.02);
+        padding: 25px;
+        border-radius: 12px;
+        border: 1px solid #333;
+        text-align: center;
+    }
+    
+    .stat-card h3 {
+        color: #fff;
+        font-size: 14px;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .stat-number {
+        color: #fff;
+        font-size: 32px;
+        font-weight: bold;
+        margin: 10px 0;
+    }
+    
+    .stat-desc {
+        color: #aaa;
+        font-size: 14px;
+    }
+    
+    /* Orders Table */
+    .orders-section {
+        margin-top: 40px;
+    }
+    
+    .orders-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .orders-header h2 {
+        color: #fff;
+        font-size: 24px;
+    }
+    
+    .refresh-btn {
+        background: transparent;
+        border: 1px solid #333;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .refresh-btn:hover {
+        border-color: #fff;
+        color: #fff;
+    }
+    
+    .orders-table-container {
+        overflow-x: auto;
+        background: rgba(255,255,255,0.02);
+        border-radius: 12px;
+        border: 1px solid #333;
+        padding: 20px;
+    }
+    
+    .orders-table {
+        width: 100%;
+        border-collapse: collapse;
+        color: #fff;
+    }
+    
+    .orders-table th {
+        text-align: left;
+        padding: 15px;
+        border-bottom: 1px solid #333;
+        font-weight: bold;
+        color: #fff;
+        background: rgba(255,255,255,0.05);
+    }
+    
+    .orders-table td {
+        padding: 15px;
+        border-bottom: 1px solid #333;
+        vertical-align: top;
+    }
+    
+    .orders-table tr:hover {
+        background: rgba(255,255,255,0.03);
+    }
+    
+    .order-id {
+        color: #fff;
+        font-weight: bold;
+        font-family: monospace;
+    }
+    
+    .customer-info {
+        min-width: 200px;
+    }
+    
+    .customer-name {
+        color: #fff;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    
+    .customer-phone, .customer-address {
+        color: #aaa;
+        font-size: 13px;
+        margin: 3px 0;
+    }
+    
+    .order-items {
+        min-width: 250px;
+    }
+    
+    .order-item {
+        margin-bottom: 8px;
+        padding-bottom: 8px;
+        border-bottom: 1px dashed #333;
+    }
+    
+    .order-item:last-child {
+        border-bottom: none;
+    }
+    
+    .item-name {
+        color: #fff;
+        font-size: 14px;
+    }
+    
+    .item-details {
+        color: #aaa;
+        font-size: 12px;
+        margin: 3px 0;
+    }
+    
+    .item-quantity {
+        color: #fff;
+        font-weight: bold;
+    }
+    
+    .order-total {
+        color: #fff;
+        font-weight: bold;
+        font-size: 16px;
+    }
+    
+    .order-date {
+        color: #aaa;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+    
+    /* Status Badges */
+    .status-badge {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .status-pending {
+        background: rgba(255,193,7,0.2);
+        color: #ffc107;
+        border: 1px solid #ffc107;
+    }
+    
+    .status-processing {
+        background: rgba(0,123,255,0.2);
+        color: #007bff;
+        border: 1px solid #007bff;
+    }
+    
+    .status-shipped {
+        background: rgba(40,167,69,0.2);
+        color: #28a745;
+        border: 1px solid #28a745;
+    }
+    
+    .status-delivered {
+        background: rgba(23,162,184,0.2);
+        color: #17a2b8;
+        border: 1px solid #17a2b8;
+    }
+    
+    .status-cancelled {
+        background: rgba(220,53,69,0.2);
+        color: #dc3545;
+        border: 1px solid #dc3545;
+    }
+    
+    /* Status Selector */
+    .status-select {
+        background: #111;
+        color: #fff;
+        border: 1px solid #333;
+        border-radius: 6px;
+        padding: 8px 12px;
+        font-size: 14px;
+        cursor: pointer;
+        min-width: 120px;
+    }
+    
+    .status-select:focus {
+        outline: none;
+        border-color: #fff;
+    }
+    
+    /* Actions */
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .action-btn {
+        background: transparent;
+        border: 1px solid #333;
+        color: #fff;
+        width: 36px;
+        height: 36px;
+        border-radius: 6px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+    
+    .action-btn:hover {
+        border-color: #fff;
+        transform: translateY(-2px);
+    }
+    
+    .btn-view:hover {
+        background: rgba(0,123,255,0.1);
+        border-color: #007bff;
+        color: #007bff;
+    }
+    
+    .btn-whatsapp:hover {
+        background: rgba(37,211,102,0.1);
+        border-color: #25D366;
+        color: #25D366;
+    }
+    
+    .btn-delete:hover {
+        background: rgba(220,53,69,0.1);
+        border-color: #dc3545;
+        color: #dc3545;
+    }
+    
+    /* Empty State */
+    .empty-orders {
+        text-align: center;
+        padding: 60px 20px;
+        color: #aaa;
+    }
+    
+    .empty-orders i {
+        font-size: 48px;
+        color: #666;
+        margin-bottom: 20px;
+    }
+    
+    .empty-orders h3 {
+        color: #fff;
+        margin-bottom: 10px;
+    }
+    
+    /* Export Section */
+    .export-section {
+        margin-top: 40px;
+        padding: 20px;
+        background: rgba(255,255,255,0.02);
+        border-radius: 12px;
+        border: 1px solid #333;
+    }
+    
+    .export-section h3 {
+        color: #fff;
+        margin-bottom: 15px;
+    }
+    
+    .export-buttons {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    
+    .export-btn {
+        background: transparent;
+        border: 1px solid #333;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .export-btn:hover {
+        border-color: #fff;
+        background: rgba(255,255,255,0.05);
+    }
+    
+    /* Logout */
+    .logout-btn {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid #333;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        z-index: 100;
+    }
+    
+    .logout-btn:hover {
+        background: rgba(255,255,255,0.2);
+        border-color: #fff;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .orders-table th,
+        .orders-table td {
+            padding: 10px 5px;
+            font-size: 14px;
+        }
+        
+        .orders-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .customer-info, .order-items {
+            min-width: 150px;
+        }
+        
+        .logout-btn {
+            position: relative;
+            top: 0;
+            right: 0;
+            margin-bottom: 20px;
+        }
+    }
+</style>
+</head>
+<body>
+<header class="site-header">
+<div class="brand">
+<img src="/assets/Elviana Luxe logo.jpg" alt="Elviana Luxe logo" id="logo" />
+<h1>ELVIANA LUXE</h1>
+</div>
+<nav class="top-links">
+<a href="index.html"><i class="fas fa-home"></i> Home</a>
+<a href="cart.html"><i class="fas fa-shopping-bag"></i> Cart</a>
+<a href="admin.html" style="color: #fff;"><i class="fas fa-lock"></i> Admin</a>
+</nav>
+</header>
+
+<main class="admin-container">
+    <!-- Login Section (Shows First) -->
+    <div id="loginSection" class="login-section">
+        <h2><i class="fas fa-lock"></i> Admin Access</h2>
+        <p style="color: #aaa; margin-bottom: 30px;">Enter the admin password to access order management</p>
+        <input type="password" id="adminPassword" class="login-input" placeholder="Enter admin password">
+        <button id="loginBtn" class="login-btn">Login to Dashboard</button>
+        <p style="color: #666; margin-top: 20px; font-size: 14px;">Default password: elviana2024</p>
+    </div>
+    
+    <!-- Admin Dashboard (Hidden until login) -->
+    <div id="adminDashboard" class="admin-dashboard">
+        <div class="admin-header">
+            <h1><i class="fas fa-chart-line"></i> Order Management Dashboard</h1>
+            <p>View and manage customer orders from Elviana Luxe</p>
+        </div>
+        
+        <!-- Stats Cards -->
+        <div class="stats-cards">
+            <div class="stat-card">
+                <h3>Total Orders</h3>
+                <div class="stat-number" id="totalOrders">0</div>
+                <p class="stat-desc">All time orders</p>
+            </div>
+            <div class="stat-card">
+                <h3>Pending Orders</h3>
+                <div class="stat-number" id="pendingOrders">0</div>
+                <p class="stat-desc">Awaiting processing</p>
+            </div>
+            <div class="stat-card">
+                <h3>Revenue</h3>
+                <div class="stat-number" id="totalRevenue">$0</div>
+                <p class="stat-desc">Total sales value</p>
+            </div>
+            <div class="stat-card">
+                <h3>Today's Orders</h3>
+                <div class="stat-number" id="todayOrders">0</div>
+                <p class="stat-desc">Orders placed today</p>
+            </div>
+        </div>
+        
+        <!-- Orders Table -->
+        <div class="orders-section">
+            <div class="orders-header">
+                <h2><i class="fas fa-shopping-cart"></i> Customer Orders</h2>
+                <button id="refreshOrders" class="refresh-btn">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            
+            <div class="orders-table-container">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Date</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                        <!-- Orders will be loaded here -->
+                    </tbody>
+                </table>
+                
+                <div id="emptyOrders" class="empty-orders" style="display: none;">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h3>No orders yet</h3>
+                    <p>Customer orders will appear here when they place orders through the website.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Export Section -->
+        <div class="export-section">
+            <h3><i class="fas fa-download"></i> Export Orders</h3>
+            <div class="export-buttons">
+                <button id="exportCSV" class="export-btn">
+                    <i class="fas fa-file-csv"></i> Export as CSV
+                </button>
+                <button id="exportJSON" class="export-btn">
+                    <i class="fas fa-file-code"></i> Export as JSON
+                </button>
+                <button id="printOrders" class="export-btn">
+                    <i class="fas fa-print"></i> Print Orders
+                </button>
+                <button id="clearOldOrders" class="export-btn" style="color: #ff6b6b;">
+                    <i class="fas fa-trash"></i> Clear Old Orders
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Logout Button (Shows when logged in) -->
+    <button id="logoutBtn" class="logout-btn" style="display: none;">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
+</main>
+
+<footer class="site-footer">
+    <p>Elviana Luxe Admin Panel © 2025 • Access restricted to authorized personnel only</p>
+    </footer>
+    
 <script>
 // Admin Panel JavaScript - COMPLETE FLAT STRUCTURE VERSION
 (function() {
@@ -535,3 +1117,4 @@
     
 })();
 </script>
+
