@@ -1,49 +1,34 @@
-// ELVIANA LUXE E-COMMERCE SYSTEM
-// Combines your original code with new e-commerce features
-
+// ELVIANA LUXE E-COMMERCE SYSTEM - COMPLETE FIXED VERSION
 (function() {
-    // === YOUR ORIGINAL CODE (with minor updates) ===
-    
-    // WhatsApp primary button opens chat with the first number
-    var btn = document.getElementById('whatsappPrimary');
-    btn && btn.addEventListener('click', function() {
-        // opens the first WhatsApp contact in a new tab
-        window.open('https://wa.me/2347063327418', '_blank');
-    });
-
-    // Lightweight image placeholder fallback
-    document.querySelectorAll('.card img, .product-image').forEach(function(img) {
-        img.addEventListener('error', function() {
-            img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="100%" height="100%" fill="%230a0a0a"/><text x="50%" y="50%" fill="%239a9a9a" font-family="Verdana" font-size="20" dominant-baseline="middle" text-anchor="middle">Image not available</text></svg>';
-        });
-    });
-
-    // Show the custom alert when page loads
+    // === FIX 1: ALERT BOX SHOWS ON EVERY PAGE LOAD ===
+    // Show welcome alert on EVERY page load
     window.addEventListener('load', function() {
-        // Only show if first visit OR if on homepage
-        if (!localStorage.getItem('elvianaWelcomeShown') || window.location.pathname.includes('index')) {
-            setTimeout(() => {
-                document.getElementById('overlay').style.display = 'flex';
-                localStorage.setItem('elvianaWelcomeShown', 'true');
-            }, 1000);
-        }
+        setTimeout(() => {
+            const overlay = document.getElementById('overlay');
+            if (overlay) {
+                overlay.style.display = 'flex';
+            }
+        }, 500);
     });
 
-    // Close the alert
+    // Close alert function
     window.closeAlert = function() {
-        document.getElementById('overlay').style.display = 'none';
+        const overlay = document.getElementById('overlay');
+        if (overlay) {
+            overlay.style.display = 'none';
+        }
     };
-
-    // === NEW E-COMMERCE FUNCTIONALITY ===
-
-    // Initialize cart if not exists
+    
+    // === CORE FUNCTIONALITY ===
+    
+    // Initialize cart
     function initializeCart() {
         if (!localStorage.getItem('elvianaCart')) {
             localStorage.setItem('elvianaCart', JSON.stringify([]));
         }
         updateCartCount();
     }
-
+    
     // Update cart count in header
     function updateCartCount() {
         const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
@@ -52,21 +37,45 @@
         cartElements.forEach(el => {
             el.textContent = cartCount;
         });
-        
-        // Also update mobile view if exists
-        const mobileCart = document.getElementById('mobile-cart-count');
-        if (mobileCart) {
-            mobileCart.textContent = cartCount;
-        }
     }
-
-    // Add product to cart
-    function addToCart(productId, quantity = 1, color = null, size = null) {
+    
+    // Product database - FIXED: Removed 'k' from prices, made them numbers
+    const products = [
+        { id: 1, name: "Designer Gold Heels", price: 40, image: "img 1.jpg", colors: ["Gold", "Rose Gold"], sizes: ["36", "37", "38"], category: "heels" },
+        { id: 2, name: "Luxury Leather Boots", price: 40, image: "img 2.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
+        { id: 3, name: "Crystal Clear Heels", price: 20, image: "img 3.jpg", colors: ["Clear", "Gold"], sizes: ["36", "37", "38"], category: "heels" },
+        { id: 4, name: "Premium White Sneakers", price: 30, image: "img 4.jpg", colors: ["White", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 5, name: "Elegant Black Heels", price: 20, image: "img 5.jpg", colors: ["Black", "Silver"], sizes: ["37", "38"], category: "heels" },
+        { id: 6, name: "Golden Sandals", price: 17, image: "img 6.jpg", colors: ["Gold", "Silver"], sizes: ["36", "37", "38"], category: "sandals" },
+        { id: 7, name: "Casual Brown Sneakers", price: 24, image: "img7.jpg", colors: ["Brown", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 8, name: "Navy Blue Sandals", price: 24, image: "img8.jpg", colors: ["Black", "Navy"], sizes: ["36", "37"], category: "sandals" },
+        { id: 9, name: "Classic Ankle Boots", price: 17, image: "img9.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
+        { id: 10, name: "Luxury Gold Heels", price: 24, image: "img10.jpg", colors: ["Black", "Gold"], sizes: ["36", "37"], category: "heels" },
+        { id: 11, name: "Red Accent Heels", price: 24, image: "img11.jpg", colors: ["Black", "Red"], sizes: ["37", "38"], category: "heels" },
+        { id: 12, name: "Brown Leather Sandals", price: 17, image: "img12.jpg", colors: ["Brown", "Black"], sizes: ["36", "37", "38"], category: "sandals" },
+        { id: 13, name: "White Summer Sandals", price: 24, image: "img13.jpg", colors: ["White", "Black"], sizes: ["37", "38"], category: "sandals" },
+        { id: 14, name: "Sport White Sneakers", price: 30, image: "img14.jpg", colors: ["White", "Gray"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 15, name: "Leather Riding Boots", price: 17, image: "img15.jpg", colors: ["Brown", "Black"], sizes: ["37", "38", "39"], category: "boots" },
+        { id: 16, name: "Nude Evening Heels", price: 17, image: "img16.jpg", colors: ["Beige", "Black"], sizes: ["36", "37"], category: "heels" },
+        { id: 17, name: "Casual Brown Sneakers", price: 17, image: "img17.jpg", colors: ["Brown", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 18, name: "Red Party Heels", price: 17, image: "img18.jpg", colors: ["Red", "Black"], sizes: ["36", "37"], category: "heels" },
+        { id: 19, name: "Blue Beach Sandals", price: 24, image: "img19.jpg", colors: ["White", "Blue"], sizes: ["37", "38"], category: "sandals" },
+        { id: 20, name: "Classic Leather Boots", price: 20, image: "img20.jpg", colors: ["Black", "Brown"], sizes: ["37", "38", "39"], category: "boots" },
+        { id: 21, name: "Nude Office Heels", price: 21, image: "img21.jpg", colors: ["Nude", "Black"], sizes: ["36", "37"], category: "heels" },
+        { id: 22, name: "Burgundy Casual Sneakers", price: 21, image: "img22.jpg", colors: ["Brown", "Burgundy"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 23, name: "Silver Night Heels", price: 24, image: "img23.jpg", colors: ["Black", "Silver"], sizes: ["36", "37"], category: "heels" },
+        { id: 24, name: "Classic Black Heels", price: 17, image: "img24.jpg", colors: ["Black", "Brown"], sizes: ["37", "38"], category: "heels" },
+        { id: 25, name: "Elegant Nude Heels", price: 17, image: "img25.jpg", colors: ["Nude", "Black"], sizes: ["36", "37"], category: "heels" },
+        { id: 26, name: "Urban Brown Sneakers", price: 20, image: "img26.jpg", colors: ["Brown", "Black"], sizes: ["38", "39", "40"], category: "sneakers" },
+        { id: 27, name: "Red Summer Sandals", price: 17, image: "img27.jpg", colors: ["Black", "Red"], sizes: ["36", "37"], category: "sandals" },
+        { id: 28, name: "Brown Casual Sandals", price: 21, image: "img28.jpg", colors: ["Brown", "Black"], sizes: ["37", "38"], category: "sandals" },
+        { id: 29, name: "Tan Casual Sneakers", price: 21, image: "img29.jpg", colors: ["Brown", "Tan"], sizes: ["38", "39"], category: "sneakers" },
+        { id: 30, name: "Black Leather Sandals", price: 21, image: "img30.jpg", colors: ["Black", "Brown"], sizes: ["37", "38"], category: "sandals" }
+    ];
+    
+    // Add to cart function
+    window.addToCart = function(productId, quantity = 1, color = null, size = null) {
         const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
-        
-        // For demo - using product data from our JSON
-        // In real implementation, you'd fetch from products.json
-        const products = getDemoProducts();
         const product = products.find(p => p.id === productId);
         
         if (!product) {
@@ -77,64 +86,34 @@
         // Check if product already in cart with same variant
         const existingIndex = cart.findIndex(item => 
             item.id === productId && 
-            item.selectedColor === color && 
-            item.selectedSize === size
+            item.selectedColor === (color || product.colors[0]) && 
+            item.selectedSize === (size || product.sizes[0])
         );
         
         if (existingIndex > -1) {
-            // Update quantity
             cart[existingIndex].quantity += quantity;
         } else {
-            // Add new item
             cart.push({
                 id: product.id,
                 name: product.name,
                 price: product.price,
-                image: product.images[0],
-                selectedColor: color || (product.colors ? product.colors[0] : 'Default'),
-                selectedSize: size || (product.sizes ? product.sizes[0] : 'One Size'),
-                quantity: quantity,
-                addedAt: new Date().toISOString()
+                image: product.image,
+                selectedColor: color || product.colors[0],
+                selectedSize: size || product.sizes[0],
+                quantity: quantity
             });
         }
         
         localStorage.setItem('elvianaCart', JSON.stringify(cart));
         updateCartCount();
-        
-        // Show success notification
         showNotification(`${product.name} added to cart!`);
-    }
-
-    // Demo product data (replace with actual products.json fetch)
-    function getDemoProducts() {
-        return [
-            {
-                id: 1,
-                name: "Gold Heeled Sandals",
-                description: "Handcrafted luxury sandals with 24k gold accents.",
-                price: 349.99,
-                images: ["img1.jpg", "img2.jpg", "img3.jpg"],
-                colors: ["Gold", "Rose Gold", "Silver"],
-                sizes: ["36", "37", "38", "39", "40"],
-                category: "heels"
-            },
-            {
-                id: 2,
-                name: "Black Leather Boots",
-                description: "Premium Italian leather boots with custom stitching.",
-                price: 289.99,
-                images: ["img4.jpg", "img5.jpg"],
-                colors: ["Black", "Brown", "Navy"],
-                sizes: ["36", "37", "38", "39", "40"],
-                category: "boots"
-            }
-            // Add more products as needed
-        ];
-    }
-
+    };
+    
     // Show notification
     function showNotification(message) {
-        // Create notification element
+        // Remove existing notifications
+        document.querySelectorAll('.notification').forEach(n => n.remove());
+        
         const notification = document.createElement('div');
         notification.className = 'notification';
         notification.textContent = message;
@@ -142,73 +121,27 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: #D4AF37;
-            color: #000;
+            background: #ffffff;
+            color: #000000;
             padding: 15px 25px;
-            border-radius: 8px;
+            border-radius: 10px;
             z-index: 10000;
             animation: slideIn 0.3s ease;
             font-weight: bold;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border: 1px solid #333;
         `;
         
         document.body.appendChild(notification);
         
-        // Remove after 3 seconds
         setTimeout(() => {
             notification.style.animation = 'slideOut 0.3s ease';
             setTimeout(() => notification.remove(), 300);
         }, 3000);
     }
-
-    // Load products for the gallery
-    function loadProducts(category = 'all') {
-        const grid = document.getElementById('product-grid');
-        if (!grid) return; // Not on homepage
-        
-        const products = getDemoProducts();
-        displayProducts(products, category);
-    }
-
-    // Display products in grid
-    function displayProducts(products, category) {
-        const grid = document.getElementById('product-grid');
-        
-        // Filter by category if not 'all'
-        const filteredProducts = category === 'all' 
-            ? products 
-            : products.filter(p => p.category === category);
-        
-        if (filteredProducts.length === 0) {
-            grid.innerHTML = '<p class="no-products">No products found in this category.</p>';
-            return;
-        }
-        
-        grid.innerHTML = filteredProducts.map(product => `
-            <div class="product-card" data-product-id="${product.id}">
-                <img src="${product.images[0]}" alt="${product.name}" class="product-image">
-                <div class="product-info">
-                    <h3 class="product-name">${product.name}</h3>
-                    <p class="product-price">$${product.price.toFixed(2)}</p>
-                    <div class="product-actions">
-                        <button class="btn-quickview" onclick="openQuickView(${product.id})">
-                            <i class="fas fa-eye"></i> Quick View
-                        </button>
-                        <button class="btn-addcart" onclick="addToCart(${product.id}, 1)">
-                            <i class="fas fa-shopping-bag"></i> Add to Cart
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    // Open quick view modal (only on product pages)
+    
+    // Open quick view
     window.openQuickView = function(productId) {
-        const modal = document.getElementById('quickViewModal');
-        if (!modal) return;
-        
-        const products = getDemoProducts();
         const product = products.find(p => p.id === productId);
         if (!product) return;
         
@@ -216,21 +149,13 @@
         modalContent.innerHTML = `
             <div class="product-detail-view">
                 <div class="product-images-side">
-                    <img src="${product.images[0]}" alt="${product.name}" class="main-product-image" id="mainProductImage">
-                    <div class="thumbnail-images">
-                        ${product.images.map((img, index) => `
-                            <img src="${img}" alt="Thumbnail ${index + 1}" 
-                                 class="thumbnail ${index === 0 ? 'active' : ''}" 
-                                 onclick="changeMainImage('${img}', this)">
-                        `).join('')}
-                    </div>
+                    <img src="${product.image}" alt="${product.name}" class="main-product-image" id="mainProductImage">
                 </div>
                 <div class="product-details-side">
                     <h2>${product.name}</h2>
-                    <p class="product-price-large">$${product.price.toFixed(2)}</p>
-                    <p class="product-description">${product.description}</p>
+                    <p class="product-price-large">₦${product.price}k</p>
+                    <p class="product-description">Premium luxury footwear with exquisite craftsmanship and attention to detail. Handcrafted using the finest materials.</p>
                     
-                    ${product.colors ? `
                     <div class="variant-selector">
                         <h4 class="variant-title">Color:</h4>
                         <div class="variant-options" id="colorOptions">
@@ -243,9 +168,7 @@
                             `).join('')}
                         </div>
                     </div>
-                    ` : ''}
                     
-                    ${product.sizes ? `
                     <div class="variant-selector">
                         <h4 class="variant-title">Size:</h4>
                         <div class="variant-options" id="sizeOptions">
@@ -258,7 +181,6 @@
                             `).join('')}
                         </div>
                     </div>
-                    ` : ''}
                     
                     <div class="quantity-selector">
                         <h4 class="variant-title">Quantity:</h4>
@@ -269,7 +191,7 @@
                         </div>
                     </div>
                     
-                    <button class="btn-addcart btn-large" onclick="addFromQuickView(${product.id})">
+                    <button class="btn-large" onclick="addFromQuickView(${product.id})">
                         <i class="fas fa-shopping-bag"></i> Add to Cart
                     </button>
                 </div>
@@ -277,145 +199,315 @@
         `;
         
         // Show modal
-        modal.style.display = 'flex';
-        
-        // Store selected variants
-        window.selectedColor = product.colors ? product.colors[0] : 'Default';
-        window.selectedSize = product.sizes ? product.sizes[0] : 'One Size';
+        document.getElementById('quickViewModal').style.display = 'flex';
+        window.selectedColor = product.colors[0];
+        window.selectedSize = product.sizes[0];
         window.selectedProductId = productId;
     };
-
+    
     // Global functions for modal
-    window.changeMainImage = function(src, element) {
-        const mainImg = document.getElementById('mainProductImage');
-        if (mainImg) mainImg.src = src;
-        
-        // Update active thumbnail
-        document.querySelectorAll('.thumbnail').forEach(thumb => {
-            thumb.classList.remove('active');
-        });
-        element.classList.add('active');
-    };
-
     window.selectVariant = function(element, type) {
-        // Remove active class from all options of this type
         element.parentElement.querySelectorAll('.variant-option').forEach(opt => {
             opt.classList.remove('active');
         });
-        
-        // Add active class to clicked option
         element.classList.add('active');
         
-        // Store selection
         if (type === 'color') {
             window.selectedColor = element.dataset.color;
         } else if (type === 'size') {
             window.selectedSize = element.dataset.size;
         }
     };
-
+    
     window.changeQuantity = function(change) {
         const input = document.getElementById('productQuantity');
         if (!input) return;
         
         let value = parseInt(input.value) + change;
-        
         if (value < 1) value = 1;
         if (value > 10) value = 10;
-        
         input.value = value;
     };
-
+    
     window.addFromQuickView = function(productId) {
         const input = document.getElementById('productQuantity');
         const quantity = input ? parseInt(input.value) : 1;
         addToCart(productId, quantity, window.selectedColor, window.selectedSize);
         
-        // Close modal after adding
         setTimeout(() => {
-            const modal = document.getElementById('quickViewModal');
-            if (modal) modal.style.display = 'none';
+            document.getElementById('quickViewModal').style.display = 'none';
         }, 1000);
     };
-
-    // Filter products by category
-    window.filterProducts = function(category) {
-        // Update active category button
-        document.querySelectorAll('.category-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        event.target.classList.add('active');
+    
+    // ========== CHECKOUT FUNCTIONALITY ==========
+    
+    // Open checkout modal
+    window.openCheckoutModal = function() {
+        const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
         
-        // Load products for category
-        loadProducts(category);
+        if (cart.length === 0) {
+            alert('Your cart is empty!');
+            return;
+        }
+        
+        // Update order summary in modal
+        const orderItems = document.getElementById('modalOrderItems');
+        const orderTotal = document.getElementById('modalOrderTotal');
+        
+        let itemsHTML = '';
+        let total = 0;
+        
+        cart.forEach(item => {
+            const itemTotal = item.price * item.quantity;
+            total += itemTotal;
+            itemsHTML += `
+                <div class="order-item">
+                    <span>${item.name} (${item.selectedColor}, Size ${item.selectedSize})</span>
+                    <span>${item.quantity} × ₦${item.price}k = ₦${itemTotal}k</span>
+                </div>
+            `;
+        });
+        
+        if (orderItems) orderItems.innerHTML = itemsHTML;
+        if (orderTotal) orderTotal.textContent = total;
+        
+        // Show modal
+        const checkoutModal = document.getElementById('checkoutModal');
+        if (checkoutModal) {
+            checkoutModal.style.display = 'flex';
+        } else {
+            console.warn('Checkout modal not found. Make sure to add the modal HTML to your page.');
+        }
     };
-
-    // Initialize when DOM is loaded
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize cart
-        initializeCart();
+    
+    // Close checkout modal
+    window.closeCheckoutModal = function() {
+        const checkoutModal = document.getElementById('checkoutModal');
+        if (checkoutModal) {
+            checkoutModal.style.display = 'none';
+        }
+    };
+    
+    // Checkout function - opens checkout or redirects to cart
+    window.openCheckout = function() {
+        // Check if we're on cart page or need to redirect
+        if (window.location.pathname.includes('cart.html')) {
+            openCheckoutModal();
+        } else {
+            // Redirect to cart page then open checkout
+            window.location.href = 'cart.html';
+            // Store flag to open modal after redirect
+            localStorage.setItem('openCheckoutModal', 'true');
+        }
+    };
+    
+    // Save order to PHP backend
+    window.saveOrderToBackend = function(orderData) {
+        return fetch('php/save_order.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(orderData)
+        })
+        .then(response => response.json());
+    };
+    
+    // Handle checkout form submission
+    function setupCheckoutForm() {
+        const checkoutForm = document.getElementById('checkoutForm');
+        if (!checkoutForm) return;
         
-        // Load products if on homepage
-        if (document.getElementById('product-grid')) {
-            loadProducts();
+        checkoutForm.addEventListener('submit', function(e) {
+            e.preventDefault();
             
-            // Setup category filter buttons
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    filterProducts(this.dataset.category);
-                });
-            });
-        }
-        
-        // Setup modal close button
-        const closeModalBtn = document.querySelector('.close-modal');
-        if (closeModalBtn) {
-            closeModalBtn.addEventListener('click', function() {
-                document.getElementById('quickViewModal').style.display = 'none';
-            });
-        }
-        
-        // Close modal when clicking outside
-        window.addEventListener('click', function(event) {
-            const modal = document.getElementById('quickViewModal');
-            if (event.target === modal && modal) {
-                modal.style.display = 'none';
+            const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
             }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            const orderData = {
+                customer_name: document.getElementById('customerName').value,
+                customer_email: document.getElementById('customerEmail').value,
+                customer_phone: document.getElementById('customerPhone').value,
+                customer_address: document.getElementById('customerAddress').value,
+                cart_items: cart,
+                total_amount: total
+            };
+            
+            // Validate required fields
+            if (!orderData.customer_name || !orderData.customer_phone || !orderData.customer_address) {
+                alert('Please fill in all required fields (Name, Phone, Address)');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = checkoutForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            submitBtn.disabled = true;
+            
+            // Save order to PHP backend
+            saveOrderToBackend(orderData)
+                .then(data => {
+                    if (data.success) {
+                        alert(`✅ Order placed successfully!\nOrder ID: ${data.order_id}\nWe will contact you shortly.`);
+                        localStorage.removeItem('elvianaCart'); // Clear cart
+                        updateCartCount();
+                        closeCheckoutModal();
+                        
+                        // Clear form
+                        checkoutForm.reset();
+                        
+                        // Redirect to home after 2 seconds
+                        setTimeout(() => {
+                            if (!window.location.pathname.includes('index')) {
+                                window.location.href = 'index.html';
+                            }
+                        }, 2000);
+                    } else {
+                        alert(`❌ Error: ${data.error || 'Failed to save order'}`);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to save order. Please try again or use WhatsApp checkout.');
+                })
+                .finally(() => {
+                    // Restore button
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                });
         });
-        
-        // Enhanced WhatsApp button for checkout
-        const whatsappBtn = document.getElementById('whatsappPrimary');
-        if (whatsappBtn) {
-            whatsappBtn.addEventListener('click', function(e) {
-                // If there are items in cart, send order summary
-                const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
-                if (cart.length > 0) {
-                    e.preventDefault();
-                    
-                    // Create order summary
-                    let message = "Hello! I'd like to order from Elviana Luxe:\n\n";
-                    cart.forEach((item, index) => {
-                        message += `${index + 1}. ${item.name} (${item.selectedColor}, Size ${item.selectedSize}) x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}\n`;
+    }
+    
+    // ========== END CHECKOUT FUNCTIONALITY ==========
+    
+    // Category filter
+    function setupCategoryFilter() {
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                const category = this.dataset.category;
+                const allProducts = document.querySelectorAll('.product-card');
+                
+                if (category === 'all') {
+                    allProducts.forEach(product => {
+                        product.style.display = 'block';
                     });
-                    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                    message += `\nTotal: $${total.toFixed(2)}\n\nName: \nAddress: \nPhone: `;
-                    
-                    const encodedMessage = encodeURIComponent(message);
-                    window.open(`https://wa.me/2347063327418?text=${encodedMessage}`, '_blank');
+                } else {
+                    allProducts.forEach(product => {
+                        const productId = parseInt(product.dataset.productId);
+                        const productData = products.find(p => p.id === productId);
+                        
+                        if (productData && productData.category === category) {
+                            product.style.display = 'block';
+                        } else {
+                            product.style.display = 'none';
+                        }
+                    });
                 }
             });
-        }
+        });
+    }
+    
+    // WhatsApp button - SENDS ORDER INQUIRY
+    document.getElementById('whatsappPrimary')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
         
-        // View Cart button
-        const viewCartBtn = document.getElementById('viewCart');
-        if (viewCartBtn) {
-            viewCartBtn.addEventListener('click', function() {
-                window.location.href = 'cart.html';
+        if (cart.length > 0) {
+            // Create order summary for WhatsApp
+            let message = `🛍️ *NEW ORDER INQUIRY - ELVIANA LUXE*\n\n`;
+            message += `_Customer is interested in these items:_\n\n`;
+            
+            cart.forEach((item, index) => {
+                message += `*${index + 1}. ${item.name}*\n`;
+                message += `🎨 Color: ${item.selectedColor}\n`;
+                message += `📏 Size: ${item.selectedSize}\n`;
+                message += `🔢 Quantity: ${item.quantity}\n`;
+                message += `💵 Price: ₦${item.price}k each (₦${item.price * item.quantity}k total)\n\n`;
             });
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            message += `💰 *TOTAL: ₦${total}k*\n\n`;
+            message += `_Please ask customer for shipping address and phone number._`;
+            
+            // Clean phone numbers (remove any spaces or special characters)
+            const phone1 = "2347063327418";
+            const phone2 = "2348130821583";
+            
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Open FIRST WhatsApp in new tab
+            window.open(`https://wa.me/${phone1}?text=${encodedMessage}`, '_blank', 'noopener,noreferrer');
+            
+            // Open SECOND WhatsApp in new tab after delay
+            setTimeout(() => {
+                window.open(`https://wa.me/${phone2}?text=${encodedMessage}`, '_blank', 'noopener,noreferrer');
+            }, 500);
+            
+        } else {
+            // If cart is empty, just open WhatsApp for general inquiry
+            window.open('https://wa.me/2347063327418', '_blank');
         }
     });
-
-    // Add CSS animations for notifications
+    
+    // View Cart button
+    document.getElementById('viewCart')?.addEventListener('click', function() {
+        window.location.href = 'cart.html';
+    });
+    
+    // Image fallback
+    document.querySelectorAll('.product-image').forEach(function(img) {
+        img.addEventListener('error', function() {
+            this.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="100%" height="100%" fill="%230a0a0a"/><text x="50%" y="50%" fill="%239a9a9a" font-family="Verdana" font-size="20" dominant-baseline="middle" text-anchor="middle">Image not available</text></svg>';
+        });
+    });
+    
+    // Modal close
+    document.querySelector('.close-modal')?.addEventListener('click', function() {
+        document.getElementById('quickViewModal').style.display = 'none';
+    });
+    
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+        const modal = document.getElementById('quickViewModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+        
+        const checkoutModal = document.getElementById('checkoutModal');
+        if (checkoutModal && event.target === checkoutModal) {
+            closeCheckoutModal();
+        }
+    });
+    
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeCart();
+        setupCategoryFilter();
+        setupCheckoutForm();
+        
+        // Check if redirected to cart page with checkout flag
+        if (window.location.pathname.includes('cart.html')) {
+            if (localStorage.getItem('openCheckoutModal') === 'true') {
+                setTimeout(() => {
+                    openCheckoutModal();
+                    localStorage.removeItem('openCheckoutModal');
+                }, 500);
+            }
+        }
+    });
+    
+    // Add CSS animations
     const style = document.createElement('style');
     style.textContent = `
         @keyframes slideIn {
@@ -426,84 +518,116 @@
             from { transform: translateX(0); opacity: 1; }
             to { transform: translateX(100%); opacity: 0; }
         }
-        .no-products { 
-            text-align: center; 
-            color: #aaa; 
-            padding: 40px; 
-            grid-column: 1 / -1;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        .btn-large { 
-            padding: 15px 30px; 
-            font-size: 16px; 
-            width: 100%; 
-            margin-top: 20px; 
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
         }
-        .product-price-large { 
-            font-size: 24px; 
-            color: #D4AF37; 
-            margin: 10px 0; 
+        /* Checkout modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal-content h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .order-summary {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .order-total {
+            text-align: right;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid #333;
+            font-size: 18px;
+        }
+        .btn-checkout {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            width: 100%;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-checkout:hover {
+            background: #333;
+        }
+        .close {
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+        }
+        .close:hover {
+            color: #333;
+        }
+        .checkout-btn {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            margin: 20px 0;
+            transition: background 0.3s;
+        }
+        .checkout-btn:hover {
+            background: #333;
         }
     `;
     document.head.appendChild(style);
-
+    
 })();
-
-// Function to save order to PHP backend
-window.saveOrderToBackend = function(customerData) {
-    const cart = JSON.parse(localStorage.getItem('elvianaCart') || '[]');
-    
-    if (cart.length === 0) {
-        alert('Cart is empty!');
-        return;
-    }
-    
-    const orderData = {
-        customer_name: customerData.name,
-        customer_email: customerData.email,
-        customer_phone: customerData.phone,
-        customer_address: customerData.address,
-        cart_items: cart,
-        total_amount: cart.reduce((total, item) => total + (item.price * item.quantity), 0)
-    };
-    
-    fetch('php/save_order.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(orderData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert(`Order placed successfully! Order ID: ${data.order_id}`);
-            localStorage.removeItem('elvianaCart'); // Clear cart
-            updateCartCount();
-            // Redirect or show success message
-        } else {
-            alert(`Error: ${data.error}`);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Failed to save order. Please try again.');
-    });
-};
-
-// Function to check out (call this when checkout button is clicked)
-window.checkoutOrder = function() {
-    // Collect customer information
-    const name = prompt('Enter your name:');
-    if (!name) return;
-    
-    const email = prompt('Enter your email:');
-    const phone = prompt('Enter your phone number:');
-    const address = prompt('Enter your shipping address:');
-    
-    saveOrderToBackend({
-        name: name,
-        email: email || '',
-        phone: phone || '',
-        address: address || ''
-    });
-};
